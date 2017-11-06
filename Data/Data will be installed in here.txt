@@ -1,2 +1,0 @@
-resource wouldn't be modified by itself
-it would be better take care this datas more
