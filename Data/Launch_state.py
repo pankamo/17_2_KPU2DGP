@@ -1,6 +1,8 @@
 from pico2d import *
 import os
 
+name = "Launch_State"
+
 Launching = True
 shivering = 0
 Shooting = False
@@ -50,7 +52,6 @@ class Bison :
                     self.x = self.x + 4
                     self.y = self.y + 5
 
-
     def draw(self):
         self.image.draw(self.x, self.y)
 
@@ -96,6 +97,38 @@ class Rope:
     def draw(self):
         self.image.draw(self.x, self.y)
 
+class Guagebar:
+    def __init__(self):
+        os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
+        self.image = load_image('TempGuageBar.png')
+        self.x, self.y = (400, 550)
+
+    def draw(self):
+        if MonsterHit < 1:
+            self.image.draw(self.x, self.y)
+        if MonsterHit >= 1:
+            self.image.draw(self.x, self.y)
+            self.y = self.y + 1
+
+class Guagepoint:
+    def __init__(self):
+        os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
+        self.image = load_image('TempGuagePoint.png')
+        self.x, self.y = (150, 400)
+
+    def update(self):
+        if Shooting == False:
+            if self.x >= 150:
+                self.x = min(650,self.x + 4)
+            if self.x <= 650:
+                self.x = min(150,self.x - 4)
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
+
+
+
+
 
 def handle_events():
     global Launching
@@ -116,6 +149,8 @@ LB = LaunchBackground()
 BS = Bison()
 MS = Monster()
 RP = Rope()
+GB = Guagebar()
+GP = Guagepoint()
 
 while Launching :
     handle_events()
@@ -127,6 +162,10 @@ while Launching :
     BS.draw()
     RP.update()
     RP.draw()
+    GB.draw()
+    GP.update()
+    GP.draw()
+
     update_canvas()
 
 close_canvas()
