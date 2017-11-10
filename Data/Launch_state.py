@@ -1,4 +1,5 @@
 from pico2d import *
+import random
 import os
 
 name = "Launch_State"
@@ -7,6 +8,7 @@ Launching = True
 shivering = 0
 Shooting = False
 MonsterHit = 0
+Direction = None
 
 class LaunchBackground :
     def __init__(self):
@@ -100,7 +102,7 @@ class Rope:
 class Guagebar:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
-        self.image = load_image('TempGuageBar.png')
+        self.image = load_image('TempGuage.png')
         self.x, self.y = (400, 550)
 
     def draw(self):
@@ -114,21 +116,31 @@ class Guagepoint:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
         self.image = load_image('TempGuagePoint.png')
-        self.x, self.y = (150, 400)
+        self.x, self.y = (random.randint(100,700), 450)
+        global direction
+        direction = [-1,1]
+        direction = random.choice(direction)
 
     def update(self):
         if Shooting == False:
-            if self.x >= 150:
-                self.x = min(650,self.x + 4)
-            if self.x <= 650:
-                self.x = min(150,self.x - 4)
+            global direction
+            if direction == 1:
+                self.x = min(700, self.x + (direction * 3))
+                if self.x == 700:
+                    direction = -1
+            if direction == -1:
+                self.x = max(100, self.x + (direction * 3))
+                if self.x == 100:
+                    direction = 1
+        if Shooting == True:
+            pass
 
     def draw(self):
-        self.image.draw(self.x, self.y)
-
-
-
-
+        if MonsterHit < 1:
+            self.image.draw(self.x, self.y)
+        if MonsterHit >= 1:
+            self.image.draw(self.x, self.y)
+            self.y = self.y + 1
 
 def handle_events():
     global Launching
