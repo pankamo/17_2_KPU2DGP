@@ -7,6 +7,9 @@ name = "Launch_State"
 Launching = True
 shivering = 0
 Shooting = False
+ShootingFail = False
+ShootingNormal = False
+ShootingBoost = False
 MonsterHit = 0
 Direction = None
 
@@ -53,22 +56,56 @@ class Bison :
 
         elif Shooting == True :
             global MonsterHit
-            self.image = load_image('TempLaunch.png')
+            if ShootingNormal == True :
+                self.image = load_image('TempLaunch.png')
+                # 750위치에서 몬스터와 부딪힘을 구현합니다.
+                if self.x <= 750:
+                    self.x += distance
+                if self.x > 750 and MonsterHit == 0:
+                    MonsterHit = 1
 
-            # 750위치에서 몬스터와 부딪힘을 구현합니다.
-            if self.x <= 750 :
-                self.x += distance
-            if self.x > 750 and MonsterHit == 0:
-                MonsterHit = 1
+                # 부딪힌 후 날아가는 모습을 구현합니다.
+                if self.x > 750:
+                    if self.x < 900:
+                        self.x = self.x + 0.4
+                        self.y = self.y + 0.5
+                    elif self.x >= 900:
+                        self.x = self.x + 4
+                        self.y = self.y + 5
 
-            # 부딪힌 후 날아가는 모습을 구현합니다.
-            if self.x > 750 :
-                if self.x < 900 :
-                    self.x = self.x + 0.4
-                    self.y = self.y + 0.5
-                elif self.x >= 900 :
-                    self.x = self.x + 4
-                    self.y = self.y + 5
+            if ShootingBoost == True :
+                self.image = load_image('TempBoosted.png')
+                # 750위치에서 몬스터와 부딪힘을 구현합니다.
+                if MonsterHit == 0:
+                    self.x += distance
+                if self.x >= 750 and MonsterHit == 0:
+                    MonsterHit = 1
+
+                # 부딪힌 후 날아가는 모습을 구현합니다.
+                if self.x > 750:
+                    if self.x < 900:
+                        self.x = self.x + 0.4
+                        self.y = self.y + 0.5
+                    elif self.x >= 900:
+                        self.x = self.x + 4
+                        self.y = self.y + 5
+
+            if ShootingFail == True :
+                self.image = load_image('TempFail.png')
+                # 750위치에서 몬스터와 부딪힘을 구현합니다.
+                if self.x <= 750:
+                    self.x += distance
+                if self.x > 750 and MonsterHit == 0:
+                    MonsterHit = 1
+
+                # 부딪힌 후 튕겨지는 모습을 구현합니다.
+                if self.x > 750:
+                    if self.x < 900:
+                        self.x = self.x - 0.4
+                        self.y = self.y + 0.5
+                    elif self.x >= 900:
+                        self.x = self.x - 4
+                        self.y = self.y - 5
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -115,7 +152,7 @@ class Rope:
         RECOV_SPEED_KMPH = (RECOV_SPEED_MPM * 60.0 / 1000.0)
         RECOV_SPEED_PPS = (RECOV_SPEED_MPS * PIXEL_PER_METER)
         distance = RECOV_SPEED_PPS * frame_time
-        # 로프복구속도는 Bison 발사속도와 똑같이
+        # 로프복구속도는 Bison과 똑같이
         # 시속 54 Km / 초당 1620 픽셀이동
 
         global Shooting
@@ -160,6 +197,10 @@ class Guagepoint:
         direction = random.choice(direction)
 
     def update(self, frame_time):
+        global ShootingFail
+        global ShootingNormal
+        global ShootingBoost
+
         # 게이지포인트가 좌우반복운동하도록 합니다.
         if Shooting == False:
             global direction
@@ -171,8 +212,15 @@ class Guagepoint:
                 self.x = max(200, self.x + (direction * 3))
                 if self.x == 200:
                     direction = 1
+
         if Shooting == True:
-            pass
+            if ( GP.x >= 370 and GP.x < 490 ) \
+                or ( GP.x > 590 and GP.x <= 710) :
+                ShootingNormal = True
+            if GP.x < 370 or GP.x > 710:
+                ShootingFail = True
+            if GP.x >= 490 and GP.x <= 590:
+                ShootingBoost = True
 
     def draw(self):
         if MonsterHit < 1:
