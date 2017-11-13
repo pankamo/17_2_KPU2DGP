@@ -24,23 +24,23 @@ class LaunchBackground :
 
 
 class Bison :
-    global PIXEL_PER_METER
-    ATTACK_SPEED_MPS = 15
-    ATTACK_SPEED_MPM = (ATTACK_SPEED_MPS * 60.0)
-    ATTACK_SPEED_KMPH = (ATTACK_SPEED_MPM * 60.0 / 1000.0)
-    ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
-    # 시속 54 Km / 초당 1620 픽셀이동
-
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
         self.image = load_image('TempB.png')
         self.x, self.y = ( 300, 250 )
 
     def update(self, frame_time):
-        distance = Bison.ATTACK_SPEED_PPS * frame_time
+        ATTACK_SPEED_MPS = 15
+        ATTACK_SPEED_MPM = (ATTACK_SPEED_MPS * 60.0)
+        ATTACK_SPEED_KMPH = (ATTACK_SPEED_MPM * 60.0 / 1000.0)
+        ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
+        distance = ATTACK_SPEED_PPS * frame_time
+        # 시속 54 Km / 초당 1620 픽셀이동
+
         global Shooting
         # 핸들이벤트에서 SPACE -> Shooting이 발동되면
         # 이를 받아사용합니다
+
         if Shooting == False :
             global shivering
             if ( shivering + 1 ) % 2 == 1 :
@@ -81,14 +81,21 @@ class Monster:
         self.x, self.y = (800, 280)
 
     def update(self, frame_time):
+        DRAG_SPEED_MPS = 0.4
+        DRAG_SPEED_MPM = (DRAG_SPEED_MPS * 60.0)
+        DRAG_SPEED_KMPH = (DRAG_SPEED_MPM * 60.0 / 1000.0)
+        DRAG_SPEED_PPS = (DRAG_SPEED_MPS * PIXEL_PER_METER)
+        distance = DRAG_SPEED_PPS * frame_time
+        # 시속 1.44 Km / 초당 43.2 픽셀이동
+
         if Shooting == True:
             global MonsterHit
-            # 몬스터가 부딪힌 후 밀려나는 모습을 구현합니다.
-            if MonsterHit >= 1 and MonsterHit < 400 :
+            # 몬스터가 부딪힌 후 3초간 밀려나는 모습을 구현합니다.
+            if MonsterHit >= 1 and MonsterHit < 3 :
                 self.image = load_image('TempMHit.png')
-                self.x = self.x + 0.1
-                MonsterHit = MonsterHit + 1
-            if MonsterHit == 400 :
+                self.x += distance
+                MonsterHit = MonsterHit + frame_time
+            if MonsterHit == 3 :
                 pass
         elif Shooting == False:
             pass
@@ -103,6 +110,14 @@ class Rope:
         self.x, self.y = ( 250, 250 )
 
     def update(self, frame_time):
+        RECOV_SPEED_MPS = 15
+        RECOV_SPEED_MPM = (RECOV_SPEED_MPS * 60.0)
+        RECOV_SPEED_KMPH = (RECOV_SPEED_MPM * 60.0 / 1000.0)
+        RECOV_SPEED_PPS = (RECOV_SPEED_MPS * PIXEL_PER_METER)
+        distance = RECOV_SPEED_PPS * frame_time
+        # 로프복구속도는 Bison 발사속도와 똑같이
+        # 시속 54 Km / 초당 1620 픽셀이동
+
         global Shooting
         if Shooting == False :
             global shivering
@@ -111,7 +126,10 @@ class Rope:
             else :
                 self.x = self.x + 2
         if Shooting == True :
-            self.x = min(300, self.x + 10)
+            if self.x < 300:
+                self.x += distance
+            if self.x >= 300:
+                pass
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -122,13 +140,15 @@ class Guagebar:
         self.image = load_image('TempGuage.png')
         self.x, self.y = (540, 550)
 
-    def draw(self):
+    def update(self,frame_time):
         if MonsterHit < 1:
-            self.image.draw(self.x, self.y)
+            pass
         if MonsterHit >= 1:
-            self.image.draw(self.x, self.y)
             self.y = self.y + 1
         # 몬스터와 부딪히면 게이지바가 사라집니다
+
+    def draw(self):
+        self.image.draw(self.x, self.y)
 
 class Guagepoint:
     def __init__(self):
@@ -174,6 +194,7 @@ def handle_events(frame_time):
             Shooting = True
             pass
 
+
 current_time = 0.0
 def get_frame_time():
     global current_time
@@ -190,21 +211,31 @@ RP = Rope()
 GB = Guagebar()
 GP = Guagepoint()
 
+def updates():
+    BS.update(frame_time)
+    MS.update(frame_time)
+    RP.update(frame_time)
+    GB.update(frame_time)
+    GP.update(frame_time)
+
+def drawings():
+    LB.draw()
+    MS.draw()
+    BS.draw()
+    RP.draw()
+    GB.draw()
+    GP.draw()
+
+def MakeAll():
+    updates()
+    drawings()
+
 while Launching :
 
     frame_time = get_frame_time()
     handle_events(frame_time)
     clear_canvas()
-    LB.draw()
-    MS.update(frame_time)
-    MS.draw()
-    BS.update(frame_time)
-    BS.draw()
-    RP.update(frame_time)
-    RP.draw()
-    GB.draw()
-    GP.update(frame_time)
-    GP.draw()
+    MakeAll()
     update_canvas()
 
 close_canvas()
