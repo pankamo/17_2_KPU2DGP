@@ -1,11 +1,13 @@
 from pico2d import *
 import random
 import os
+import math
 
-name = "Launch_State"
+name = "Launch_state"
 
 Launching = True
 shivering = 0
+reflecting = 0
 Shooting = False
 MonsterHit = 0
 Direction = None
@@ -51,7 +53,7 @@ class Bison :
                 self.image = load_image('TempLaunch.png')
                 # 750위치에서 몬스터와 부딪힘을 구현합니다.
                 if self.x <= 750:
-                    self.x += distance
+                    self.x += distance * 0.8
                 if self.x > 750 and MonsterHit == 0:
                     MonsterHit = 1
 
@@ -85,19 +87,29 @@ class Bison :
                 self.image = load_image('TempFail.png')
                 # 750위치에서 몬스터와 부딪힘을 구현합니다.
                 if MonsterHit == 0:
-                    if self.x <= 750:
-                        self.x += distance
-                    if self.x > 750:
-                        MonsterHit = 1
+                    self.x += distance * 0.5
+                if self.x >= 750 and MonsterHit == 0:
+                    MonsterHit = 1
 
                 # 부딪힌 후 튕겨지는 모습을 구현합니다.
-                if MonsterHit == 1:
-                    if self.x < 750:
-                        self.x = self.x - 0.4
-                        self.y = self.y + 0.5
-                    if self.x >= 750:
-                        self.x = self.x - 4
-                        self.y = self.y - 5
+                if self.x > 750:
+                    global reflecting
+                    reflecting = 1
+                if reflecting == 1 :
+                    t = 0.5
+                    r = 0.4
+                    self.x = self.x - math.cos(t) * r
+                    self.y = self.y + math.sin(t) * r
+                    if self.y >= 300:
+                        reflecting = 2
+                if self.y > 200 and reflecting == 2:
+                    t = 0.8
+                    r = 5
+                    self.x = self.x - math.sin(t) * r
+                    self.y = self.y - math.cos(t) * r
+                    if self.y == 200:
+                        pass
+
 
 
     def draw(self):
