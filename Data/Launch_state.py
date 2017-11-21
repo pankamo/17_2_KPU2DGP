@@ -20,13 +20,23 @@ ShootingBoost = False
 PIXEL_PER_METER = 108
 
 class Bison :
+
+    image = None
+    BShivering, BAttacking, BHitting, BFlying, BFailed, BBoostered, \
+    BKnocked, \
+        = 1, 2, 3, 4, 4, 6, 5
+
+    frame = 0
+    state = 0
+
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
-        self.image = load_image('TempB.png')
-        self.x, self.y = ( 300, 250 )
+        if Bison.image == None:
+            self.image = load_image('LaunchingB_sprite.png')
+        self.x, self.y = ( 300, 150 )
 
     def update(self, frame_time):
-        ATTACK_SPEED_MPS = 15
+        ATTACK_SPEED_MPS = 8
         ATTACK_SPEED_MPM = (ATTACK_SPEED_MPS * 60.0)
         ATTACK_SPEED_KMPH = (ATTACK_SPEED_MPM * 60.0 / 1000.0)
         ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
@@ -38,6 +48,7 @@ class Bison :
         # 이를 받아사용합니다
 
         if Shooting == False :
+            self.state = self.BShivering
             global shivering
             if ( shivering + 1 ) % 2 == 1 :
                 self.x = self.x + 2
@@ -50,70 +61,93 @@ class Bison :
         elif Shooting == True :
             global MonsterHit
             if ShootingNormal == True :
-                self.image = load_image('TempLaunch.png')
+                self.state = self.BAttacking
+                self.frame = (self.frame +1) % 6
                 # 750위치에서 몬스터와 부딪힘을 구현합니다.
-                if self.x <= 750:
+                if MonsterHit == 0 :
                     self.x += distance * 0.8
-                if self.x > 750 and MonsterHit == 0:
+                if self.x > 700 and MonsterHit == 0:
                     MonsterHit = 1
 
                 # 부딪힌 후 날아가는 모습을 구현합니다.
-                if self.x > 750:
+                if self.x > 700 :
                     if self.x < 900:
+                        self.state = self.BHitting
+                        self.frame = 0
                         self.x = self.x + 0.4
                         self.y = self.y + 0.5
                     elif self.x >= 900:
+                        self.state = self.BFlying
+                        self.frame = (self.frame + 1) % 6
                         self.x = self.x + 4
                         self.y = self.y + 5
 
             if ShootingBoost == True :
-                self.image = load_image('TempBoosted.png')
+                self.state = self.BBoostered
+                self.frame = (self.frame +1) % 6
                 # 750위치에서 몬스터와 부딪힘을 구현합니다.
                 if MonsterHit == 0:
                     self.x += distance
-                if self.x >= 750 and MonsterHit == 0:
+                if self.x >= 700 and MonsterHit == 0:
                     MonsterHit = 1
 
                 # 부딪힌 후 날아가는 모습을 구현합니다.
-                if self.x > 750:
+                if self.x > 700:
                     if self.x < 900:
+                        self.state = self.BHitting
+                        self.frame = 0
                         self.x = self.x + 0.4
                         self.y = self.y + 0.5
                     elif self.x >= 900:
+                        self.state = self.BFlying
+                        self.frame = (self.frame + 1) % 6
                         self.x = self.x + 4
                         self.y = self.y + 5
 
             if ShootingFail == True :
-                self.image = load_image('TempFail.png')
+                self.state = self.BFlying
+                self.frame = (self.frame + 5) % 6
                 # 750위치에서 몬스터와 부딪힘을 구현합니다.
                 if MonsterHit == 0:
                     self.x += distance * 0.5
                 if self.x >= 750 and MonsterHit == 0:
+                    global reflecting
                     MonsterHit = 1
+                    reflecting = 1
 
                 # 부딪힌 후 튕겨지는 모습을 구현합니다.
-                if self.x > 750:
-                    global reflecting
-                    reflecting = 1
                 if reflecting == 1 :
-                    t = 0.5
+                    self.state = self.BHitting
+                    self.frame = 0
+                    t = 0
+                    t += 0.5
                     r = 0.4
                     self.x = self.x - math.cos(t) * r
                     self.y = self.y + math.sin(t) * r
-                    if self.y >= 300:
+                    if self.y >= 250:
                         reflecting = 2
-                if self.y > 200 and reflecting == 2:
-                    t = 0.8
-                    r = 5
+                if reflecting == 2:
+                    self.state = self.BShivering
+                    self.frame = 0
+                    t = 0
+                    t += 0.5
+                    r = 1
                     self.x = self.x - math.sin(t) * r
                     self.y = self.y - math.cos(t) * r
-                    if self.y == 200:
-                        pass
+                    if self.y <= 100:
+                        reflecting = 3
+                if reflecting == 3 :
+                    self.state = self.BKnocked
+                    self.frame = 0
+                    self.x , self.y = self.x, self.y
+                    pass
+
 
 
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        self.image.clip_draw(self.frame * 250, self.state * 250, 250, 250, \
+                        self.x, self.y)
 
 class LaunchBackground :
     def __init__(self):
@@ -123,11 +157,19 @@ class LaunchBackground :
     def draw(self):
         self.image.draw(540, 300)
 
+class Grass :
+    def __init__(self):
+        os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
+        self.image = load_image('TempPlant.png')
+
+    def draw(self):
+        self.image.draw(540, 50)
+
 class Monster:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
         self.image = load_image('TempM.png')
-        self.x, self.y = (800, 280)
+        self.x, self.y = (800, 130)
 
     def update(self, frame_time):
         DRAG_SPEED_MPS = 0.4
@@ -156,7 +198,7 @@ class Rope:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
         self.image = load_image('TempR.png')
-        self.x, self.y = ( 250, 250 )
+        self.x, self.y = ( 250, 100 )
 
     def update(self, frame_time):
         RECOV_SPEED_MPS = 15
@@ -181,7 +223,7 @@ class Rope:
                 pass
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        self.image.draw(self.x , self.y)
 
 class Guagebar:
     def __init__(self):
@@ -263,6 +305,7 @@ def get_frame_time():
     return frame_time
 
 open_canvas(1080,600)
+pico2d.hide_lattice()
 
 BS = Bison()
 LB = LaunchBackground()
@@ -270,6 +313,7 @@ MS = Monster()
 RP = Rope()
 GB = Guagebar()
 GP = Guagepoint()
+GS = Grass()
 
 def updates():
     BS.update(frame_time)
@@ -285,6 +329,7 @@ def drawings():
     RP.draw()
     GB.draw()
     GP.draw()
+    GS.draw()
 
 def MakeAll():
     updates()
