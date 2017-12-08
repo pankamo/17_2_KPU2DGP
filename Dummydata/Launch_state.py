@@ -228,7 +228,7 @@ class Rope:
 class Guagebar:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
-        self.image = load_image('TempGuage.png')
+        self.image = load_image('TempGauge.png')
         self.x, self.y = (540, 550)
 
     def update(self,frame_time):
@@ -244,7 +244,7 @@ class Guagebar:
 class Guagepoint:
     def __init__(self):
         os.chdir('E:\Pytemp\Burrito\Pandaria\Images')
-        self.image = load_image('TempGuagePoint.png')
+        self.image = load_image('TempGaugePoint.png')
         self.x, self.y = (random.randint(200,880), 450)
         global direction
         direction = [-1,1]

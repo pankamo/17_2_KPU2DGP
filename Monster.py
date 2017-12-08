@@ -1,5 +1,7 @@
 from pico2d import *
 
+import math
+
 class Monster:
 
     image = None
@@ -7,10 +9,10 @@ class Monster:
     IDLE, DRAGGING, LAUGHING, KNOCKED, CRUSHED = 0, 1, 2, 3, 4
 
     def __init__(self):
-        self.x, self.y = (800, 130)
+        self.x, self.y = (800, 150)
         self.frame = 0
         self.state = self.IDLE
-        if Monster.image == None :
+        if self.image == None :
             self.image = load_image('./Images/TempM.png')
 
 
@@ -29,3 +31,12 @@ class Monster:
     def draw(self):
         self.image.draw(self.x, self.y)
         pass
+
+    def get_bb(self):
+        r = 70
+        t = 0
+        x = self.x - math.cos(t) * r
+        y = self.y + math.sin(t) * r
+        while True :
+            t += 0.25
+            return ( x, y, r )
