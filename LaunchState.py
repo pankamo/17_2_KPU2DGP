@@ -34,6 +34,7 @@ def destroy_LaunchingStage():
 
 def enter():
     open_canvas( 1080, 600 )
+    hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
 

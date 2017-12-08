@@ -1,4 +1,5 @@
 import game_framework
 import LaunchState
+import FlyingState
 
-game_framework.run(LaunchState)
+game_framework.run(FlyingState)
