@@ -26,6 +26,9 @@ def create_FlyingStage():
     bison = Bison()
     ground = Ground()
     background = Background()
+
+    background.set_main_object(bison)
+    bison.set_background(background)
     #jellybear = [JellyBear() for i in range(20)]
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]

@@ -10,6 +10,7 @@ class Bison:
     DESCENT, RISING, ROTATING, KNOCKOUT = 1, 0, 2, 5
 
     PIXEL_PER_METER = 108
+    FLYING_SPEED_KMPH = 10
     GRAVITIONAL_ACCELERATION = 9.81 #MPS
     ENERGY_LOSS = 9.81
     ELASTIC_ENERGY = 0
@@ -23,7 +24,9 @@ class Bison:
         time_count = 0
         DESCENT_SPEED_MPS = 0
         RISING_SPEED_MPS = 0
-        self.x, self.y = (250, 600)
+        self.x, self.y = 0, 0
+        self.canvas_width = get_canvas_width()
+        self.canvas_height = get_canvas_height()
         self.frame = 0
         self.direction = -1
         self.state = self.DESCENT
@@ -31,11 +34,23 @@ class Bison:
             self.image = load_image('./Images/FlyingB_sprite.png')
             pass
 
+    def set_background(self, background):
+        self.background = background
+        self.x = self.background.w / 4
+        self.y = self.background.h
+
     def update(self, frame_time):
         global frame_count
         global time_count
         global DESCENT_SPEED_MPS
         global RISING_SPEED_MPS
+
+        self.FLYING_SPEED_MPM = ( self.FLYING_SPEED_KMPH * 1000 ) / 60
+        self.FLYING_SPEED_MPS = self.FLYING_SPEED_MPM / 60
+        self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
+        distance = self.FLYING_SPEED_PPS * frame_time
+
+        self.x += distance
 
         if self.state == self.DESCENT :
             self.frame = 0
@@ -66,11 +81,13 @@ class Bison:
 
         elif self.state == self.KNOCKOUT :
             self.image = load_image('./Images/LaunchingB_sprite.png')
+            self.FLYING_SPEED_KMPH = 0
             self.frame = 0
 
     def draw(self):
-        self.image.clip_draw(self.frame * 250, self.state * 250,
-                             250, 250, self.x, self.y)
+        self.image.clip_draw(self.frame * 250, self.state * 250, 250, 250,
+                             self.x - self.background.q3l,
+                             self.y - self.background.q3b)
 
     def get_bb(self):
         r = 40
