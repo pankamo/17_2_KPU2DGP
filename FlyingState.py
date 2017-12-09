@@ -5,8 +5,7 @@ import math
 import game_framework
 
 from BisonInFlyingState import Bison
-from Monster import Monster
-from Gauge import *
+from Jellybears import JellyBear
 from Scenes import *
 
 name = "FlyingState"
@@ -17,31 +16,38 @@ policebear = None
 rocketbear = None
 bombbear = None
 ground = None
+background = None
 PIXEL_PER_METER = 108
 
 
 def create_FlyingStage():
     global bison, ground, background, \
-            jellybear, policebear, rocketbear, bombbear, jellybears
+            jellybear, policebear, rocketbear, bombbear
     bison = Bison()
     ground = Ground()
+    jellybear = JellyBear()
     background = Background()
 
-    background.set_main_object(bison)
-    bison.set_background(background)
-    #jellybear = [JellyBear() for i in range(20)]
+    ground.set_main_object(bison)
+    ground.set_jellybear(jellybear)
+    ground.set_background(background)
+
+    bison.set_mainground(ground)
+
+
+    jellybear = [JellyBear() for i in range(20)]
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]
     #bombbear = [BombBear() for i in range(2)]
-    #jellybears = jellybear + policebear + rocketbear + bombbear
+
     pass
 
 def destroy_FlyingStage():
-    global bison, ground, background, jellybears
+    global bison, ground, background, jellybear
     del(ground)
     del(background)
     del(bison)
-    del(jellybears)
+    del(jellybear)
 
 def enter():
     open_canvas( 1080, 600 )
@@ -84,19 +90,29 @@ def handle_events(frame_time):
 
 
 def update(frame_time):
-    #for jellybear in jellybears :
-        #jellybear.update(frame_time)
-    background.update(frame_time)
+    global jellybear
+    background.update(bison, background, frame_time)
     bison.update(frame_time)
     ground.update(frame_time)
-    #if collide(bison, jellybears):
-        #if bison.state == bison.DESCENT :
-            #bison.state = bison.RISING
     if falling(bison, ground):
         if bison.state == bison.DESCENT :
-            bison.state = bison.ROTATING
-        elif bison.ELASTIC_ENERGY < 6 :
+            bison.state = bison.RISING
+            bison.FLYING_SPEED_KMPH -= 0
+            bison.ENERGY_LOSS += 0
+        if bison.ELASTIC_ENERGY < 6 :
             bison.state = bison.KNOCKOUT
+        if bison.FLYING_SPEED_KMPH < 10:
+            bison.state = bison.KNOCKOUT
+
+    for jb in jellybear :
+        jb.update(frame_time)
+        if collide(bison, jb):
+            if bison.state == bison.DESCENT :
+                bison.state = bison.RISING
+                bison.FLYING_SPEED_KMPH -= 0
+                bison.ENERGY_LOSS += 0
+
+
 
 
 
@@ -104,8 +120,8 @@ def draw(frame_time):
     clear_canvas()
     background.draw()
     bison.draw()
-    #for jellybear, policebear, rocketbear, bombbear in jellybears :
-        #jellybears.draw()
+    for jb in jellybear :
+        jb.draw(ground)
     ground.draw()
     update_canvas()
     pass
