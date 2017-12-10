@@ -10,12 +10,20 @@ class JellyBear:
     PIXEL_PER_METER = 108
     RUNNING_SPEED_KMPH = 0
     RUNNING, EXPLODED = 0, 1
+    BISON_FLYING_SPEED_KMPH = 0
 
-    def __init__(self):
+    def GET_BISON_SPEED (self, bison):
+        self.BISON_FLYING_SPEED_KMPH = bison.FLYING_SPEED_KMPH
+
+    def __init__(self, bison):
+
+        self.GET_BISON_SPEED(bison)
 
         self.canvas_width = get_canvas_width()
 
-        self.RUNNING_SPEED_KMPH = -(random.randint(20,80))
+        self.RUNNING_SPEED_KMPH = -(random.randint( self.BISON_FLYING_SPEED_KMPH // 4,
+                                                    (self.BISON_FLYING_SPEED_KMPH // 4) * 3))
+
         if self.image == None :
             self.image = load_image('./Images/TempBear.png')
         self.x = random.randint(self.canvas_width // 2, self.canvas_width + 500)
@@ -23,6 +31,7 @@ class JellyBear:
         self.state = self.RUNNING
 
     def update(self, frame_time):
+
         if self.state == self.RUNNING :
             self.RUNNING_SPEED_MPM = (self.RUNNING_SPEED_KMPH * 1000) / 60
             self.RUNNING_SPEED_MPS = self.RUNNING_SPEED_MPM / 60

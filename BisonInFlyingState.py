@@ -8,15 +8,15 @@ class Bison:
     font = None
     image = None
 
-    DESCENT, RISING, ROTATING, KNOCKOUT, ROCKETSLAM = 1, 0, 2, 3, 4
+    RISING, DESCENT, ROTATING, ROCKETSLAM, KNOCKOUT = 0, 1, 2, 3, 4
 
     PIXEL_PER_METER = 108
     FLYING_SPEED_KMPH = 0
     GRAVITIONAL_ACCELERATION = 9.81 #MP
     ELASTIC_ENERGY = 0
 
-    def SET_ENEMY(self, jellybears):
-        self.enemy = jellybears
+    #def SET_ENEMY(self, jellybears):
+        #self.enemy = jellybears
 
     def __init__(self):
         global frame_count
@@ -55,7 +55,7 @@ class Bison:
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
 
         self.x = clamp(0, self.canvas_width // 4, self.canvas_width)
-        self.y = clamp(125, self.y, self.canvas_height)
+        self.y = clamp(100, self.y, self.canvas_height)
 
         if self.state == self.KNOCKOUT :
             pass
@@ -70,11 +70,13 @@ class Bison:
             RISING_SPEED_MPS = DESCENT_SPEED_MPS
             self.ELASTIC_ENERGY = DESCENT_SPEED_MPS
             DESCENT_SPEED_PPS = DESCENT_SPEED_MPS * self.PIXEL_PER_METER
-            distance = DESCENT_SPEED_PPS * frame_time
+            distance = max (0, DESCENT_SPEED_PPS * frame_time)
+
 
             self.y += self.direction * distance
 
         elif self.state == self.RISING :
+            frame_count += frame_time
             if frame_count > 0.05:
                 self.frame = (self.frame + 1) % 6
                 frame_count = 0
@@ -107,7 +109,10 @@ class Bison:
                 self.state = self.DESCENT
 
         elif self.state == self.ROCKETSLAM :
-            self.frame = 0
+            frame_count += frame_time
+            if frame_count > 0.05:
+                self.frame = (self.frame + 1) % 6
+                frame_count = 0
             self.direction = -1
             self.ENERGY_LOSS = 9.81
             DESCENT_SPEED_MPS += self.GRAVITIONAL_ACCELERATION * frame_time

@@ -4,9 +4,11 @@ import math
 
 import game_framework
 
+import LaunchState
+
 from BisonInFlyingState import Bison
 from Jellybears import JellyBear
-from Scenes import *
+from FlyingStateBackgrounds import *
 
 name = "FlyingState"
 
@@ -16,25 +18,28 @@ policebear = None
 rocketbear = None
 bombbear = None
 ground = None
+upperground = None
 background = None
 PIXEL_PER_METER = 108
 
 
 def create_FlyingStage():
-    global bison, ground, background, \
-            jellybear, policebear, rocketbear, bombbear, \
-            jellybears
+    global bison,\
+            ground, upperground,\
+            backgroundfirst, backgroundsecond, backgroundthird,\
+            jellybear, jellybears
 
     bison = Bison()
+    upperground = UpperGround()
     ground = Ground()
-    jellybear = JellyBear()
-    background = Background()
+    jellybear = JellyBear(bison)
+    backgroundfirst = BackgroundFirst()
+    backgroundsecond = BackgroundSecond()
+    backgroundthird = BackgroundThird()
 
-    jellybear = [JellyBear() for jellybear in range(6)]
 
+    jellybear = [JellyBear(bison) for jellybear in range(6)]
     jellybears = jellybear
-
-    bison.SET_ENEMY(jellybears)
 
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]
@@ -43,21 +48,34 @@ def create_FlyingStage():
     pass
 
 def destroy_FlyingStage():
-    global bison, ground, background, jellybear
+    global bison,\
+            ground, upperground,\
+            backgroundfirst, backgroundsecond, backgroundthird,\
+            jellybear,\
+            bgm
     del(ground)
-    del(background)
+    del(upperground)
+    del(backgroundfirst)
+    del(backgroundsecond)
+    del(backgroundthird)
     del(bison)
     del(jellybear)
+    del(bgm)
+
+def bgm_play() :
+    global bgm
+    bgm = load_wav('./Sounds/FlyingBGM.wav')
+    bgm.set_volume(50)
+    bgm.play()
 
 def enter():
-    open_canvas( 1080, 600 )
     hide_lattice()
     game_framework.reset_time()
     create_FlyingStage()
+    bgm_play()
 
 def exit():
     destroy_FlyingStage()
-    close_canvas()
 
 def collide(a,b):
     BisonX, BisonY, BisonR = a.get_bb()
@@ -87,12 +105,17 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+                game_framework.change_state(LaunchState)
             else :
                 bison.handle_event(event)
 
 
 def update(frame_time):
-    background.update(bison, frame_time)
+    backgroundfirst.update(bison, frame_time)
+    backgroundsecond.update(bison, frame_time)
+    backgroundthird.update(bison,frame_time)
+    upperground.update(bison,frame_time)
     bison.update(frame_time)
     ground.update(bison, frame_time)
     if falling(bison, ground):
@@ -134,7 +157,10 @@ def update(frame_time):
 
 def draw(frame_time):
     clear_canvas()
-    background.draw()
+    backgroundthird.draw()
+    backgroundsecond.draw()
+    backgroundfirst.draw()
+    upperground.draw()
     bison.draw()
     for jb in jellybear :
         jb.draw()

@@ -17,7 +17,7 @@ class Bison:
         PIXEL_PER_METER = 108
         frame_count = 0
         time_count = 0
-        self.x, self.y = (250, 150)
+        self.x, self.y = (250, 100)
         self.frame = 0
         self.vibedirection = random.choice([-1,1])
         self.state = self.SHIVERING
@@ -113,6 +113,7 @@ class Bison:
         while True :
             t += 0.25
             return ( x, y, r )
+
 
 
 

@@ -1,12 +1,14 @@
 from pico2d import *
 
 import math
+import FlyingState
 
 import game_framework
 
 from BisonInLaunchState import Bison
 from Monster import Monster
 from Gauge import *
+from LaunchStateBackgrounds import *
 
 name = "LaunchState"
 
@@ -14,33 +16,48 @@ bison = None
 monster = None
 gaugebar = None
 gaugepoint = None
+background = None
+grass = None
+bgm = None
 PIXEL_PER_METER = 108
 
+def bgm_play():
+    global bgm
+    bgm = load_wav('./Sounds/LaunchBGM.wav')
+    bgm.set_volume(50)
+    bgm.play()
 
 def create_LaunchingStage():
-    global bison, monster, gaugebar, gaugepoint
+    global bison, monster, gaugebar, gaugepoint, background, ground, grass
     bison = Bison()
     monster = Monster()
     gaugebar = GaugeBar()
     gaugepoint = GaugePoint()
+    background = Background()
+    grass = Grass()
+    ground = Ground()
+    bgm_play()
     pass
 
 def destroy_LaunchingStage():
-    global bison, monster, gaugebar, gaugepoint
+    global bison, monster, gaugebar, gaugepoint, background, ground, grass, bgm
     del(bison)
     del(monster)
     del(gaugebar)
     del(gaugepoint)
+    del(background)
+    del(grass)
+    del(ground)
+    del(bgm)
 
 def enter():
-    open_canvas( 1080, 600 )
+    #open_canvas(1080,600)
     hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
 
 def exit():
     destroy_LaunchingStage()
-    close_canvas()
 
 def collide(a,b):
     BisonX, BisonY, BisonR = a.get_bb()
@@ -67,6 +84,8 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
+            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+                game_framework.change_state(FlyingState)
             else :
                 bison.handle_event(event)
 
@@ -80,13 +99,17 @@ def update(frame_time):
             bison.state = bison.HITTING
         if bison.state == bison.FAILED :
             bison.state = bison.REFLECTING
+    background.update(frame_time)
     gaugebar.update(frame_time, bison)
     gaugepoint.update(frame_time, bison)
 
 def draw(frame_time):
     clear_canvas()
-    bison.draw()
+    background.draw()
+    ground.draw()
     monster.draw()
+    bison.draw()
+    grass.draw()
     gaugebar.draw()
     gaugepoint.draw()
     update_canvas()

@@ -6,8 +6,8 @@ class GaugeBar:
 
     def __init__(self):
         if self.image == None :
-            self.image = load_image('./Images/TempGauge.png')
-            self.x, self.y = (540, 550)
+            self.image = load_image('./Images/Gauge.png')
+            self.x, self.y = (540, 300)
 
     def update(self, frame_time, bison):
         if bison.state == bison.HITTING :
@@ -22,8 +22,8 @@ class GaugePoint:
 
     def __init__(self):
         if self.image == None :
-            self.image = load_image('./Images/TempGaugePoint.png')
-            self.x, self.y = (random.randint (200,880), 450)
+            self.image = load_image('./Images/GaugePin.png')
+            self.x, self.y = (random.randint (200,880), 365)
             self.direction = random.choice([-1,1])
 
     def update(self, frame_time, bison):
