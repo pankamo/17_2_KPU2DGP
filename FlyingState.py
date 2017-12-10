@@ -22,20 +22,20 @@ PIXEL_PER_METER = 108
 
 def create_FlyingStage():
     global bison, ground, background, \
-            jellybear, policebear, rocketbear, bombbear
+            jellybear, policebear, rocketbear, bombbear, \
+            jellybears
+
     bison = Bison()
     ground = Ground()
     jellybear = JellyBear()
     background = Background()
 
-    ground.set_main_object(bison)
-    ground.set_jellybear(jellybear)
-    ground.set_background(background)
+    jellybear = [JellyBear() for jellybear in range(6)]
 
-    bison.set_mainground(ground)
+    jellybears = jellybear
 
+    bison.SET_ENEMY(jellybears)
 
-    jellybear = [JellyBear() for i in range(20)]
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]
     #bombbear = [BombBear() for i in range(2)]
@@ -90,29 +90,31 @@ def handle_events(frame_time):
 
 
 def update(frame_time):
-    global jellybear
-    background.update(bison, background, frame_time)
+    background.update(bison, frame_time)
     bison.update(frame_time)
-    ground.update(frame_time)
+    ground.update(bison, frame_time)
     if falling(bison, ground):
         if bison.state == bison.DESCENT :
-            bison.state = bison.RISING
-            bison.FLYING_SPEED_KMPH -= 0
-            bison.ENERGY_LOSS += 0
-        if bison.ELASTIC_ENERGY < 6 :
+            bison.state = bison.ROTATING
+            bison.FLYING_SPEED_KMPH -= 10
+            bison.ENERGY_LOSS += 0.2
+            for jellybear in jellybears :
+                jellybear.RUNNING_SPEED_KMPH += 10
+
+        if bison.ELASTIC_ENERGY < 3 :
             bison.state = bison.KNOCKOUT
         if bison.FLYING_SPEED_KMPH < 10:
             bison.state = bison.KNOCKOUT
 
-    for jb in jellybear :
-        jb.update(frame_time)
-        if collide(bison, jb):
+    for jellybear in jellybears :
+        jellybear.update(frame_time)
+        if collide(bison, jellybear):
             if bison.state == bison.DESCENT :
+                jellybear.state = jellybear.EXPLODED
                 bison.state = bison.RISING
-                bison.FLYING_SPEED_KMPH -= 0
-                bison.ENERGY_LOSS += 0
-
-
+                bison.FLYING_SPEED_KMPH -= 3
+                jellybear.RUNNING_SPEED_KMPH += 3
+                bison.ENERGY_LOSS -= 0.4
 
 
 
@@ -121,7 +123,7 @@ def draw(frame_time):
     background.draw()
     bison.draw()
     for jb in jellybear :
-        jb.draw(ground)
+        jb.draw()
     ground.draw()
     update_canvas()
     pass

@@ -8,13 +8,16 @@ class Bison:
     font = None
     image = None
 
-    DESCENT, RISING, ROTATING, KNOCKOUT = 1, 0, 2, 5
+    DESCENT, RISING, ROTATING, KNOCKOUT = 1, 0, 2, 3
 
     PIXEL_PER_METER = 108
-    FLYING_SPEED_KMPH = 20.0
+    FLYING_SPEED_KMPH = 0
     GRAVITIONAL_ACCELERATION = 9.81 #MPS
     ENERGY_LOSS = 9.81
     ELASTIC_ENERGY = 0
+
+    def SET_ENEMY(self, jellybears):
+        self.enemy = jellybears
 
     def __init__(self):
         global frame_count
@@ -25,21 +28,20 @@ class Bison:
         time_count = 0
         DESCENT_SPEED_MPS = 0
         RISING_SPEED_MPS = 0
-        self.x, self.y = 0, 0
+        self.canvas_width = get_canvas_width()
+        self.canvas_height = get_canvas_height()
         self.frame = 0
         self.direction = -1
         self.state = self.DESCENT
+        self.x = self.canvas_width // 4
+        self.y = self.canvas_height
+        self.FLYING_SPEED_KMPH = 128
+
         if self.image == None :
             self.image = load_image('./Images/FlyingB_sprite.png')
         if self.font == None :
-            self.font = load_font('./Fonts/aMonster.TTF',20)
+            self.font = load_font('./Fonts/aMonster.TTF',30)
             pass
-
-    def set_mainground(self, ground):
-        self.ground = ground
-        self.x = self.ground.w // 4
-        self.y = self.ground.h * 6
-
 
     def update(self, frame_time):
         global frame_count
@@ -47,12 +49,18 @@ class Bison:
         global DESCENT_SPEED_MPS
         global RISING_SPEED_MPS
 
+
         self.FLYING_SPEED_MPM = ( self.FLYING_SPEED_KMPH * 1000 ) / 60
         self.FLYING_SPEED_MPS = self.FLYING_SPEED_MPM / 60
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
-        distance = self.FLYING_SPEED_PPS * frame_time
 
-        self.x += distance
+        self.x = clamp(0, self.canvas_width // 4, self.canvas_width)
+        self.y = clamp(100, self.y, self.canvas_height)
+
+        if self.state == self.KNOCKOUT :
+            pass
+        else :
+            self.spend_time = get_time()
 
         if self.state == self.DESCENT :
             self.frame = 0
@@ -70,6 +78,7 @@ class Bison:
                 self.frame = (self.frame + 1) % 6
                 frame_count = 0
             self.direction = 1
+
             RISING_SPEED_MPS -= ( self.ENERGY_LOSS ) * frame_time
             DESCENT_SPEED_MPS = RISING_SPEED_MPS
             RISING_SPEED_PPS = RISING_SPEED_MPS * self.PIXEL_PER_METER
@@ -97,27 +106,24 @@ class Bison:
                 self.state = self.DESCENT
 
         elif self.state == self.KNOCKOUT :
-            self.image = load_image('./Images/LaunchingB_sprite.png')
             self.FLYING_SPEED_KMPH = 0
             self.frame = 0
 
-    def GET_BISON_FLYING_SPEED_PPS(self, background):
+    def GET_BISON_FLYING_SPEED_PPS(self):
         self.FLYING_SPEED_MPM = (self.FLYING_SPEED_KMPH * 1000) / 60
         self.FLYING_SPEED_MPS = self.FLYING_SPEED_MPM / 60
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
-        background.SCROLLING_SPEED_PPS = self.FLYING_SPEED_PPS
-        return background.SCROLLING_SPEED_PPS
+        return self.FLYING_SPEED_PPS
 
     def draw(self):
-        self.font.draw((self.x - self.ground.q3l) - 80,
-                       (self.y - self.ground.q3b) + 100,
-                       'self.x : %f' % (self.x - self.ground.q3l), (255,255,0))
-        self.font.draw((self.x - self.ground.q3l) - 80,
-                       (self.y - self.ground.q3b) - 100,
-                       'SPEED : %s KMPH' % (self.FLYING_SPEED_KMPH), (255,255,0))
+        #self.font.draw(self.x - 80, self.y + 100,
+                       #'self.x : %f' % (self.x), (255,255,0))
+        self.font.draw(20, 570,
+                       '비행 속도 : %s KM/H' % (self.FLYING_SPEED_KMPH), (0,0,0))
+        self.font.draw(20, 530,
+                       '비행 시간 : %2.2f 초' % (self.spend_time),(0,0,0))
         self.image.clip_draw(self.frame * 250, self.state * 250, 250, 250,
-                             self.x - self.ground.q3l,
-                             self.y - self.ground.q3b)
+                             self.x, self.y)
 
     def get_bb(self):
         r = 40
