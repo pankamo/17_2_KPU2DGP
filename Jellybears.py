@@ -36,10 +36,10 @@ class JellyBear:
             if self.x > 1620:
                 self.state = self.EXPLODED
 
-        if self.state == self.EXPLODED :
-            if self.x < -540 :
+        elif self.state == self.EXPLODED :
+            if self.x < -540 or self.RUNNING_SPEED_KMPH < 0 :
                 self.x = random.randint(self.canvas_width + 100, self.canvas_width + 500)
-            if self.x > 1620:
+            elif self.x > 1620 or self.RUNNING_SPEED_KMPH > 0 :
                 self.x = random.randint(-500, -100)
             self.state = self.RUNNING
 

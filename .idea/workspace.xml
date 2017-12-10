@@ -5,7 +5,6 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BisonInFlyingState.py" afterPath="$PROJECT_DIR$/BisonInFlyingState.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FlyingState.py" afterPath="$PROJECT_DIR$/FlyingState.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Jellybears.py" afterPath="$PROJECT_DIR$/Jellybears.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Scenes.py" afterPath="$PROJECT_DIR$/Scenes.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +18,8 @@
       <file leaf-file-name="BisonInFlyingState.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2375">
-              <caret line="125" column="44" lean-forward="true" selection-start-line="125" selection-start-column="44" selection-end-line="125" selection-end-column="44" />
+            <state relative-caret-position="-114">
+              <caret line="60" column="16" lean-forward="true" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -31,8 +30,8 @@
       <file leaf-file-name="Scenes.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Scenes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1140">
-              <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+            <state relative-caret-position="152">
+              <caret line="38" column="30" lean-forward="true" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -43,8 +42,8 @@
       <file leaf-file-name="Jellybears.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Jellybears.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-7">
-              <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+            <state relative-caret-position="285">
+              <caret line="42" column="51" lean-forward="true" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -55,8 +54,8 @@
       <file leaf-file-name="FlyingState.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlyingState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1159">
-              <caret line="32" column="55" lean-forward="true" selection-start-line="32" selection-start-column="55" selection-end-line="32" selection-end-column="55" />
+            <state relative-caret-position="328">
+              <caret line="130" column="38" lean-forward="false" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -127,8 +126,8 @@
         <option value="$PROJECT_DIR$/StartGame.py" />
         <option value="$PROJECT_DIR$/Scenes.py" />
         <option value="$PROJECT_DIR$/BisonInFlyingState.py" />
-        <option value="$PROJECT_DIR$/Jellybears.py" />
         <option value="$PROJECT_DIR$/FlyingState.py" />
+        <option value="$PROJECT_DIR$/Jellybears.py" />
       </list>
     </option>
   </component>
@@ -236,7 +235,7 @@
     <frame x="683" y="0" width="681" height="728" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962406" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24962406" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2195122" sideWeight="0.5233083" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3284553" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -438,10 +437,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Scenes.py">
+    <entry file="file://$PROJECT_DIR$/FlyingState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1140">
-          <caret line="60" column="48" lean-forward="false" selection-start-line="60" selection-start-column="48" selection-end-line="60" selection-end-column="48" />
+        <state relative-caret-position="328">
+          <caret line="130" column="38" lean-forward="false" selection-start-line="130" selection-start-column="38" selection-end-line="130" selection-end-column="38" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -450,18 +449,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Jellybears.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7">
-          <caret line="31" column="0" lean-forward="true" selection-start-line="31" selection-start-column="0" selection-end-line="31" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="42" column="51" lean-forward="true" selection-start-line="42" selection-start-column="51" selection-end-line="42" selection-end-column="51" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FlyingState.py">
+    <entry file="file://$PROJECT_DIR$/Scenes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1159">
-          <caret line="32" column="55" lean-forward="true" selection-start-line="32" selection-start-column="55" selection-end-line="32" selection-end-column="55" />
+        <state relative-caret-position="152">
+          <caret line="38" column="30" lean-forward="true" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -470,8 +469,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2375">
-          <caret line="125" column="44" lean-forward="true" selection-start-line="125" selection-start-column="44" selection-end-line="125" selection-end-column="44" />
+        <state relative-caret-position="-114">
+          <caret line="60" column="16" lean-forward="true" selection-start-line="60" selection-start-column="16" selection-end-line="60" selection-end-column="16" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>

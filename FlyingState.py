@@ -87,6 +87,8 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
+            else :
+                bison.handle_event(event)
 
 
 def update(frame_time):
@@ -101,6 +103,13 @@ def update(frame_time):
             for jellybear in jellybears :
                 jellybear.RUNNING_SPEED_KMPH += 10
 
+        if bison.state == bison.ROCKETSLAM :
+            bison.state = bison.RISING
+            bison.FLYING_SPEED_KMPH -= 1
+            bison.ENERGY_LOSS -= 1
+            for jellybear in jellybears :
+                jellybear.RUNNING_SPEED_KMPH += 1
+
         if bison.ELASTIC_ENERGY < 3 :
             bison.state = bison.KNOCKOUT
         if bison.FLYING_SPEED_KMPH < 10:
@@ -114,7 +123,12 @@ def update(frame_time):
                 bison.state = bison.RISING
                 bison.FLYING_SPEED_KMPH -= 3
                 jellybear.RUNNING_SPEED_KMPH += 3
-                bison.ENERGY_LOSS -= 0.4
+                bison.ENERGY_LOSS -= 4
+
+            if bison.state == bison.ROCKETSLAM :
+                jellybear.state = jellybear.EXPLODED
+                bison.state = bison.RISING
+                bison.ENERGY_LOSS -= 4
 
 
 

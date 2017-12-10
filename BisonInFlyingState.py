@@ -8,12 +8,11 @@ class Bison:
     font = None
     image = None
 
-    DESCENT, RISING, ROTATING, KNOCKOUT = 1, 0, 2, 3
+    DESCENT, RISING, ROTATING, KNOCKOUT, ROCKETSLAM = 1, 0, 2, 3, 4
 
     PIXEL_PER_METER = 108
     FLYING_SPEED_KMPH = 0
-    GRAVITIONAL_ACCELERATION = 9.81 #MPS
-    ENERGY_LOSS = 9.81
+    GRAVITIONAL_ACCELERATION = 9.81 #MP
     ELASTIC_ENERGY = 0
 
     def SET_ENEMY(self, jellybears):
@@ -36,6 +35,7 @@ class Bison:
         self.x = self.canvas_width // 4
         self.y = self.canvas_height
         self.FLYING_SPEED_KMPH = 128
+        self.ENERGY_LOSS = 0
 
         if self.image == None :
             self.image = load_image('./Images/FlyingB_sprite.png')
@@ -55,7 +55,7 @@ class Bison:
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
 
         self.x = clamp(0, self.canvas_width // 4, self.canvas_width)
-        self.y = clamp(100, self.y, self.canvas_height)
+        self.y = clamp(125, self.y, self.canvas_height)
 
         if self.state == self.KNOCKOUT :
             pass
@@ -65,6 +65,7 @@ class Bison:
         if self.state == self.DESCENT :
             self.frame = 0
             self.direction = -1
+            self.ENERGY_LOSS = 9.81
             DESCENT_SPEED_MPS += self.GRAVITIONAL_ACCELERATION * frame_time
             RISING_SPEED_MPS = DESCENT_SPEED_MPS
             self.ELASTIC_ENERGY = DESCENT_SPEED_MPS
@@ -105,6 +106,19 @@ class Bison:
             if RISING_SPEED_MPS < 0:
                 self.state = self.DESCENT
 
+        elif self.state == self.ROCKETSLAM :
+            self.frame = 0
+            self.direction = -1
+            self.ENERGY_LOSS = 9.81
+            DESCENT_SPEED_MPS += self.GRAVITIONAL_ACCELERATION * frame_time
+            RISING_SPEED_MPS = DESCENT_SPEED_MPS
+            self.ELASTIC_ENERGY = DESCENT_SPEED_MPS
+            DESCENT_SPEED_PPS = DESCENT_SPEED_MPS * self.PIXEL_PER_METER
+            distance = DESCENT_SPEED_PPS * frame_time
+
+            self.y += self.direction * (distance * 3)
+
+
         elif self.state == self.KNOCKOUT :
             self.FLYING_SPEED_KMPH = 0
             self.frame = 0
@@ -133,3 +147,7 @@ class Bison:
         while True :
             t += 0.25
             return x, y, r
+
+    def handle_event(self, event):
+        if event.type == SDL_KEYDOWN and event.key == SDLK_SPACE :
+            self.state = self.ROCKETSLAM
