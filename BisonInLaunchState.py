@@ -2,13 +2,21 @@ from pico2d import *
 
 import random
 import math
+import KeepingBisonSpeed
 
 class Bison:
 
     image = None
 
     SHIVERING, ATTACKING, FAILED, BOOSTERED, HITTING, REFLECTING, FLYING, KNOCKOUT \
-    = 1, 2, 4, 6, 3, 3, 4, 5
+    = 1, 2, 4, 6, 3, 8, 7, 5
+
+    FLYING_SPEED_KMPH = 0
+
+    scene_change_time = 0
+
+    def SaveBisonSpeed(self):
+        return self.FLYING_SPEED_KMPH
 
     def __init__(self):
         global PIXEL_PER_METER
@@ -37,6 +45,9 @@ class Bison:
                     self.vibedirection = -(self.vibedirection)
 
         elif self.state == self.ATTACKING :
+            self.FLYING_SPEED_KMPH = 128
+            KeepingBisonSpeed.SaveBisonSpeed(self)
+
             ATTACK_SPEED_MPS = 8
             ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
             distance = ATTACK_SPEED_PPS * frame_time
@@ -50,6 +61,9 @@ class Bison:
             pass
 
         elif self.state == self.BOOSTERED :
+            self.FLYING_SPEED_KMPH = 256
+            KeepingBisonSpeed.SaveBisonSpeed(self)
+
             ATTACK_SPEED_MPS = 10
             ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
             distance = ATTACK_SPEED_PPS * frame_time
@@ -62,6 +76,9 @@ class Bison:
             self.x += distance
 
         elif self.state == self.FAILED :
+            self.FLYING_SPEED_KMPH = 10
+            KeepingBisonSpeed.SaveBisonSpeed(self)
+
             ATTACK_SPEED_MPS = 6
             ATTACK_SPEED_PPS = (ATTACK_SPEED_MPS * PIXEL_PER_METER)
             distance = ATTACK_SPEED_PPS * frame_time
@@ -75,17 +92,18 @@ class Bison:
 
         elif self.state == self.HITTING :
             self.frame = 0
-            self.x = self.x + 0.4
-            self.y = self.y + 0.5
+            self.x += 0.4
+            self.y += 0.5
             time_count += frame_time
 
-            if int(time_count) == 1 :
-                time_count = 0
+            if int(time_count) == 2 :
                 self.state = self.FLYING
+                time_count = 0
 
         elif self.state == self.FLYING :
-            self.x = self.x + 4
-            self.y = self.y + 5
+            self.x += 4
+            self.y += 5
+            self.scene_change_time += frame_time
             frame_count += frame_time
             if frame_count > 0.05:
                 self.frame = (self.frame + 1) % 6
@@ -93,8 +111,22 @@ class Bison:
             pass
 
         elif self.state == self.REFLECTING :
-            self.x = self.x - 0.4
-            self.y = self.y - 0.5
+            self.x -= 0.3
+            self.y += 0.2
+
+            time_count += frame_time
+            if time_count > 2:
+                self.x -= 2
+                self.y -= 3
+                pass
+
+            if self.y < 100 :
+                time_count = 0
+                self.state = self.KNOCKOUT
+
+        elif self.state == self.KNOCKOUT :
+            pass
+
 
     def draw(self):
         self.image.clip_draw(self.frame * 250, self.state * 250,

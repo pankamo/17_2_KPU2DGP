@@ -10,7 +10,8 @@ class GaugeBar:
             self.x, self.y = (540, 300)
 
     def update(self, frame_time, bison):
-        if bison.state == bison.HITTING :
+        if bison.state == bison.HITTING \
+                or bison.state == bison.REFLECTING:
             self.y += 1
 
     def draw(self):

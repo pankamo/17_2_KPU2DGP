@@ -2,6 +2,7 @@ from pico2d import *
 
 import random
 import math
+import KeepingBisonSpeed
 
 class Bison:
 
@@ -18,6 +19,9 @@ class Bison:
     #def SET_ENEMY(self, jellybears):
         #self.enemy = jellybears
 
+    def LoadBisonSpeed(self):
+        KeepingBisonSpeed.LoadBisonSpeed(self)
+
     def __init__(self):
         global frame_count
         global time_count
@@ -27,6 +31,8 @@ class Bison:
         time_count = 0
         DESCENT_SPEED_MPS = 0
         RISING_SPEED_MPS = 0
+        KeepingBisonSpeed.LoadBisonSpeed(self)
+        self.spend_time = 0
         self.canvas_width = get_canvas_width()
         self.canvas_height = get_canvas_height()
         self.frame = 0
@@ -34,7 +40,6 @@ class Bison:
         self.state = self.DESCENT
         self.x = self.canvas_width // 4
         self.y = self.canvas_height
-        self.FLYING_SPEED_KMPH = 128
         self.ENERGY_LOSS = 0
 
         if self.image == None :
@@ -60,7 +65,7 @@ class Bison:
         if self.state == self.KNOCKOUT :
             pass
         else :
-            self.spend_time = get_time()
+            self.spend_time += frame_time
 
         if self.state == self.DESCENT :
             self.frame = 0

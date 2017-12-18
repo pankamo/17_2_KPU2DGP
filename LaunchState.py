@@ -51,7 +51,7 @@ def destroy_LaunchingStage():
     del(bgm)
 
 def enter():
-    #open_canvas(1080,600)
+    open_canvas(1080,600)
     hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
@@ -84,7 +84,9 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            if (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
+                game_framework.change_state(FlyingState)
+            if int(bison.scene_change_time) > 0.5 :
                 game_framework.change_state(FlyingState)
             else :
                 bison.handle_event(event)
@@ -97,7 +99,7 @@ def update(frame_time):
         if bison.state == bison.ATTACKING \
             or bison.state == bison.BOOSTERED:
             bison.state = bison.HITTING
-        if bison.state == bison.FAILED :
+        elif bison.state == bison.FAILED :
             bison.state = bison.REFLECTING
     background.update(frame_time)
     gaugebar.update(frame_time, bison)
