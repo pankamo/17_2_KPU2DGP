@@ -4,15 +4,7 @@
     <bookmark url="file://$PROJECT_DIR$/StartGame.py" line="10" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="40f0632d-b93f-45ef-b833-39a11e4250dd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Images/LaunchingB_sprite.png" afterPath="$PROJECT_DIR$/Images/LaunchingB_sprite.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BisonInFlyingState.py" afterPath="$PROJECT_DIR$/BisonInFlyingState.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BisonInLaunchState.py" afterPath="$PROJECT_DIR$/BisonInLaunchState.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Gauge.py" afterPath="$PROJECT_DIR$/Gauge.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LaunchState.py" afterPath="$PROJECT_DIR$/LaunchState.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/StartGame.py" afterPath="$PROJECT_DIR$/StartGame.py" />
-    </list>
+    <list default="true" id="40f0632d-b93f-45ef-b833-39a11e4250dd" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -22,14 +14,24 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="BisonInLaunchState.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BisonInLaunchState.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BisonInLaunchState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-881">
+            <state relative-caret-position="1425">
               <caret line="75" column="28" lean-forward="true" selection-start-line="75" selection-start-column="28" selection-end-line="75" selection-end-column="28" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GoalState.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/GoalState.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="19">
+              <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -457,14 +459,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/GoalState.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2263">
@@ -503,11 +497,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/BisonInLaunchState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-881">
+        <state relative-caret-position="1425">
           <caret line="75" column="28" lean-forward="true" selection-start-line="75" selection-start-column="28" selection-end-line="75" selection-end-column="28" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/GoalState.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="19">
+          <caret line="1" column="0" lean-forward="true" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
