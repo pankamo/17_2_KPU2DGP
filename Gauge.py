@@ -10,9 +10,8 @@ class GaugeBar:
             self.x, self.y = (540, 300)
 
     def update(self, frame_time, bison):
-        if bison.state == bison.HITTING \
-                or bison.state == bison.REFLECTING:
-            self.y += 1
+        if bison.state in (bison.HITTING, bison.FLYING, bison.REFLECTING) :
+            self.y += 5
 
     def draw(self):
         self.image.draw(self.x, self.y)
@@ -46,10 +45,10 @@ class GaugePoint:
                 bison.state = bison.FAILED
             else :
                 bison.state = bison.ATTACKING
-            pass
+                pass
 
         if bison.state in (bison.HITTING, bison.FLYING, bison.REFLECTING) :
-            self.y += 1
+            self.y += 5
 
     def draw(self):
         self.image.draw(self.x, self.y)

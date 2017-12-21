@@ -90,7 +90,7 @@ class BackgroundFirst:
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
-        self.speed = bison.FLYING_SPEED_PPS // 5
+        self.speed = bison.FLYING_SPEED_PPS // 10
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
         self.qb += bison.y
@@ -163,7 +163,7 @@ class BackgroundThird :
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
-        self.speed = bison.FLYING_SPEED_PPS // 20
+        self.speed = bison.FLYING_SPEED_PPS // 100
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
         self.qb += bison.y

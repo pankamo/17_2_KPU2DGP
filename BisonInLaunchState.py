@@ -92,17 +92,28 @@ class Bison:
 
         elif self.state == self.HITTING :
             self.frame = 0
-            self.x += 0.4
-            self.y += 0.5
-            time_count += frame_time
 
+            HITTING_SPEED_MPS = 1
+            HITTING_SPEED_PPS = (HITTING_SPEED_MPS * PIXEL_PER_METER)
+            distance = HITTING_SPEED_PPS * frame_time
+
+            self.x += distance * 0.4
+            self.y += distance * 0.5
+
+            time_count += frame_time
             if int(time_count) == 2 :
                 self.state = self.FLYING
                 time_count = 0
 
         elif self.state == self.FLYING :
-            self.x += 4
-            self.y += 5
+
+            FLYING_SPEED_MPS = 1
+            FLYING_SPEED_PPS = (FLYING_SPEED_MPS * PIXEL_PER_METER)
+            distance = FLYING_SPEED_PPS * frame_time
+
+            self.x += distance * 8
+            self.y += distance * 10
+
             self.scene_change_time += frame_time
             frame_count += frame_time
             if frame_count > 0.05:
