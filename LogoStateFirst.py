@@ -9,7 +9,7 @@ logo_time = 0.0
 
 def enter():
     global image, sound
-    open_canvas(1080, 600)
+    open_canvas(1080, 600, sync=60)
     image = load_image('./Images/TitleLogo.png')
     sound_play()
     pass

@@ -122,13 +122,19 @@ class Bison:
             pass
 
         elif self.state == self.REFLECTING :
-            self.x -= 0.3
-            self.y += 0.2
+            self.frame = 0
+
+            REFLECTING_SPEED_MPS = 1
+            REFLECTING_SPEED_PPS = (REFLECTING_SPEED_MPS * PIXEL_PER_METER)
+            distance = REFLECTING_SPEED_PPS * frame_time
+
+            self.x -= distance * 0.4
+            self.y += distance * 0.4
 
             time_count += frame_time
-            if time_count > 2:
-                self.x -= 2
-                self.y -= 3
+            if time_count > 1.5 :
+                self.x -= distance * 2
+                self.y -= distance * 3
                 pass
 
             if self.y < 100 :

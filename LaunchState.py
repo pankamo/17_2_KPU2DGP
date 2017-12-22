@@ -86,8 +86,9 @@ def handle_events(frame_time):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
                 game_framework.change_state(FlyingState)
-            #if int(bison.scene_change_time) > 0.5 :
-                #game_framework.change_state(FlyingState)
+            elif int(bison.scene_change_time) > 1 :
+                game_framework.change_state(FlyingState)
+                bison.scene_change_time = 0
             else :
                 bison.handle_event(event)
 

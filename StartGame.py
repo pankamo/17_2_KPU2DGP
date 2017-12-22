@@ -5,7 +5,7 @@ import LogoStateSecond
 import MainTitleState
 import LaunchState
 import FlyingState
-#import GoalState
+import GoalState
 
 
 #game_framework.run(LogoStateFirst)
