@@ -157,13 +157,13 @@ class BackgroundThird :
         self.speed = bison.FLYING_SPEED_PPS // 100
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.y = 120 - bison.y
+        self.y = max (120 - bison.y, self.camera_height - self.h)
         pass
 
     def draw(self):
         self.image.clip_draw_to_origin( self.ql, 0,
                                         self.w - self.ql, self.h,
-                                        self.x, self.y)
+                                        self.x + 1, self.y)
         self.image.clip_draw_to_origin( 0 , 0,
                                         self.ql, self.h,
                                         self.w - self.ql, self.y)
