@@ -3,6 +3,7 @@ from pico2d import *
 import random
 import math
 import KeepingBisonSpeed
+import LaunchState
 
 class Bison:
 
@@ -106,7 +107,6 @@ class Bison:
                 time_count = 0
 
         elif self.state == self.FLYING :
-
             FLYING_SPEED_MPS = 1
             FLYING_SPEED_PPS = (FLYING_SPEED_MPS * PIXEL_PER_METER)
             distance = FLYING_SPEED_PPS * frame_time
@@ -114,11 +114,16 @@ class Bison:
             self.x += distance * 8
             self.y += distance * 10
 
-            self.scene_change_time += frame_time
             frame_count += frame_time
             if frame_count > 0.05:
                 self.frame = (self.frame + 1) % 6
                 frame_count = 0
+
+            self.scene_change_time += frame_time
+
+            if int(self.scene_change_time) > 1 :
+                self.scene_change_time = 0
+                LaunchState.LAUNCHING = False
             pass
 
         elif self.state == self.REFLECTING :

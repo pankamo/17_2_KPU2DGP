@@ -13,7 +13,7 @@ class Bison:
 
     PIXEL_PER_METER = 108
     FLYING_SPEED_KMPH = 0
-    GRAVITIONAL_ACCELERATION = 9.81 #MP
+    GRAVITIONAL_ACCELERATION = 9.81 #MPS
     ELASTIC_ENERGY = 0
 
     #def SET_ENEMY(self, jellybears):
@@ -31,7 +31,7 @@ class Bison:
         time_count = 0
         DESCENT_SPEED_MPS = 0
         RISING_SPEED_MPS = 0
-        KeepingBisonSpeed.LoadBisonSpeed(self)
+        self.LoadBisonSpeed()
         self.spend_time = 0
         self.canvas_width = get_canvas_width()
         self.canvas_height = get_canvas_height()
@@ -60,7 +60,7 @@ class Bison:
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
 
         self.x = clamp(0, self.canvas_width // 4, self.canvas_width)
-        self.y = clamp(100, self.y, self.canvas_height)
+        self.y = clamp(120, self.y, (self.canvas_height // 5) * 4)
 
         if self.state == self.KNOCKOUT :
             pass
@@ -126,7 +126,7 @@ class Bison:
             DESCENT_SPEED_PPS = DESCENT_SPEED_MPS * self.PIXEL_PER_METER
             distance = DESCENT_SPEED_PPS * frame_time
 
-            self.y += self.direction * (distance * 3)
+            self.y += self.direction * (distance * 5)
 
 
         elif self.state == self.KNOCKOUT :

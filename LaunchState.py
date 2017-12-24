@@ -21,6 +21,8 @@ grass = None
 bgm = None
 PIXEL_PER_METER = 108
 
+LAUNCHING = None
+
 def bgm_play():
     global bgm
     bgm = load_wav('./Sounds/LaunchBGM.wav')
@@ -51,13 +53,17 @@ def destroy_LaunchingStage():
     del(bgm)
 
 def enter():
+    global LAUNCHING
     open_canvas(1080,600,sync=60)
     hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
+    LAUNCHING = True
 
 def exit():
+    global LAUNCHING
     destroy_LaunchingStage()
+    LAUNCHING = False
 
 def collide(a,b):
     BisonX, BisonY, BisonR = a.get_bb()
@@ -86,25 +92,26 @@ def handle_events(frame_time):
                 game_framework.quit()
             elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
                 game_framework.change_state(FlyingState)
-            elif int(bison.scene_change_time) > 1 :
-                game_framework.change_state(FlyingState)
-                bison.scene_change_time = 0
             else :
                 bison.handle_event(event)
 
 
 def update(frame_time):
-    monster.update(frame_time)
-    bison.update(frame_time)
-    if collide(bison, monster) :
-        if bison.state == bison.ATTACKING \
-            or bison.state == bison.BOOSTERED:
-            bison.state = bison.HITTING
-        elif bison.state == bison.FAILED :
-            bison.state = bison.REFLECTING
-    background.update(frame_time)
-    gaugebar.update(frame_time, bison)
-    gaugepoint.update(frame_time, bison)
+    if LAUNCHING == True :
+        monster.update(frame_time)
+        bison.update(frame_time)
+        if collide(bison, monster) :
+            if bison.state == bison.ATTACKING \
+                or bison.state == bison.BOOSTERED:
+                bison.state = bison.HITTING
+            elif bison.state == bison.FAILED :
+                bison.state = bison.REFLECTING
+        background.update(frame_time)
+        gaugebar.update(frame_time, bison)
+        gaugepoint.update(frame_time, bison)
+
+    elif LAUNCHING == False :
+        game_framework.change_state(FlyingState)
 
 def draw(frame_time):
     clear_canvas()

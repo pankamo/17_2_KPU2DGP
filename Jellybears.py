@@ -2,7 +2,7 @@ from pico2d import *
 
 import random
 
-import FlyingState
+import KeepingBisonSpeed
 
 class JellyBear:
 
@@ -10,27 +10,32 @@ class JellyBear:
     PIXEL_PER_METER = 108
     RUNNING_SPEED_KMPH = 0
     RUNNING, EXPLODED = 0, 1
+    FLYING_SPEED_KMPH = 0
     BISON_FLYING_SPEED_KMPH = 0
 
-    def GET_BISON_SPEED (self, bison):
-        self.BISON_FLYING_SPEED_KMPH = bison.FLYING_SPEED_KMPH
+    def LOAD_BISON_SPEED (self):
+        KeepingBisonSpeed.LoadBisonSpeed(self)
 
-    def __init__(self, bison):
-
-        self.GET_BISON_SPEED(bison)
+    def __init__(self):
+        self.LOAD_BISON_SPEED()
+        self.BISON_FLYING_SPEED_KMPH = self.FLYING_SPEED_KMPH
 
         self.canvas_width = get_canvas_width()
 
         self.RUNNING_SPEED_KMPH = -(random.randint( self.BISON_FLYING_SPEED_KMPH // 4,
-                                                    (self.BISON_FLYING_SPEED_KMPH // 4) * 3))
+                                                    ( self.BISON_FLYING_SPEED_KMPH // 4) * 3))
+
+        self.qb = 0
 
         if self.image == None :
             self.image = load_image('./Images/TempBear.png')
         self.x = random.randint(self.canvas_width // 2, self.canvas_width + 500)
-        self.y = 100
+        self.y = 0
         self.state = self.RUNNING
 
-    def update(self, frame_time):
+    def update(self,bison, frame_time):
+
+        self.y = 220 - bison.y
 
         if self.state == self.RUNNING :
             self.RUNNING_SPEED_MPM = (self.RUNNING_SPEED_KMPH * 1000) / 60
@@ -62,5 +67,5 @@ class JellyBear:
             return x, y, r
 
     def draw(self):
-        self.image.draw(self.x, self.y)
+        self.image.clip_draw(0 ,0 , 130, 144, self.x, self.y)
 

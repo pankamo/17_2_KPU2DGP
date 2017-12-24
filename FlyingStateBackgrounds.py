@@ -16,23 +16,21 @@ class Ground :
         self.h = self.image.h
 
         self.ql = 0
-        self.qb = 0
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
         self.speed = bison.FLYING_SPEED_PPS
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.qb += bison.y
-        self.qb = int(clamp(0, self.qb, 600 - self.camera_height))
+        self.y = 120-(bison.y)
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin( self.ql, self.qb,
-                                        self.w - self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( self.ql, 0,
+                                        self.w - self.ql, self.h,
                                         self.x, self.y)
-        self.image.clip_draw_to_origin( 0 , self.qb,
-                                        self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( 0 , 0,
+                                        self.ql, self.h,
                                         self.w - self.ql, self.y)
 
     def get_bb(self):
@@ -53,23 +51,21 @@ class UpperGround :
         self.h = self.image.h
 
         self.ql = 0
-        self.qb = 0
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
         self.speed = bison.FLYING_SPEED_PPS // 3
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.qb += bison.y
-        self.qb = int(clamp(0, self.qb, 600 - self.camera_height))
+        self.y = 120 - bison.y
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin( self.ql, self.qb,
-                                        self.w - self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( self.ql, 0,
+                                        self.w - self.ql, self.h,
                                         self.x, self.y)
-        self.image.clip_draw_to_origin( 0 , self.qb,
-                                        self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( 0 , 0,
+                                        self.ql, self.h,
                                         self.w - self.ql, self.y)
 
 class BackgroundFirst:
@@ -86,23 +82,21 @@ class BackgroundFirst:
         self.h = self.image.h
 
         self.ql = 0
-        self.qb = 0
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
         self.speed = bison.FLYING_SPEED_PPS // 10
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.qb += bison.y
-        self.qb = int(clamp(0, self.qb, 600 - self.camera_height))
+        self.y = 120 - bison.y
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin( self.ql, self.qb,
-                                        self.w - self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( self.ql, 0,
+                                        self.w - self.ql, self.h,
                                         self.x, self.y)
-        self.image.clip_draw_to_origin( 0 , self.qb,
-                                        self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( 0 , 0,
+                                        self.ql, self.h,
                                         self.w - self.ql, self.y)
         pass
 
@@ -121,23 +115,21 @@ class BackgroundSecond :
         self.h = self.image.h
 
         self.ql = 0
-        self.qb = 0
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
         self.speed = bison.FLYING_SPEED_PPS // 10
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.qb += bison.y
-        self.qb = int(clamp(0, self.qb, 600 - self.camera_height))
+        self.y = 120 - bison.y
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin( self.ql, self.qb,
-                                        self.w - self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( self.ql, 0,
+                                        self.w - self.ql, self.h,
                                         self.x, self.y)
-        self.image.clip_draw_to_origin( 0 , self.qb,
-                                        self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( 0 , 0,
+                                        self.ql, self.h,
                                         self.w - self.ql, self.y)
         pass
 
@@ -159,22 +151,20 @@ class BackgroundThird :
         self.h = self.image.h
 
         self.ql = 0
-        self.qb = 0
 
     def update(self, bison, frame_time):
         bison.GET_BISON_FLYING_SPEED_PPS()
         self.speed = bison.FLYING_SPEED_PPS // 100
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.qb += bison.y
-        self.qb = int(clamp(0, self.qb, 600 - self.camera_height))
+        self.y = 120 - bison.y
         pass
 
     def draw(self):
-        self.image.clip_draw_to_origin( self.ql, self.qb,
-                                        self.w - self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( self.ql, 0,
+                                        self.w - self.ql, self.h,
                                         self.x, self.y)
-        self.image.clip_draw_to_origin( 0 , self.qb,
-                                        self.ql, self.h - self.qb,
+        self.image.clip_draw_to_origin( 0 , 0,
+                                        self.ql, self.h,
                                         self.w - self.ql, self.y)
         pass

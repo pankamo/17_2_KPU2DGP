@@ -32,13 +32,13 @@ def create_FlyingStage():
     bison = Bison()
     upperground = UpperGround()
     ground = Ground()
-    jellybear = JellyBear(bison)
+    jellybear = JellyBear()
     backgroundfirst = BackgroundFirst()
     backgroundsecond = BackgroundSecond()
     backgroundthird = BackgroundThird()
 
 
-    jellybear = [JellyBear(bison) for jellybear in range(6)]
+    jellybear = [JellyBear() for jellybear in range(6)]
     jellybears = jellybear
 
     #policebear = [PoliceBear() for i in range(2)]
@@ -106,13 +106,11 @@ def handle_events(frame_time):
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            elif (event.type, event.key) == (SDL_KEYDOWN, SDLK_q):
-                game_framework.change_state(LaunchState)
             else :
                 bison.handle_event(event)
 
 
-def update(frame_time):
+def update( frame_time):
     backgroundfirst.update(bison, frame_time)
     backgroundsecond.update(bison, frame_time)
     backgroundthird.update(bison,frame_time)
@@ -126,21 +124,20 @@ def update(frame_time):
             bison.ENERGY_LOSS += 0.2
             for jellybear in jellybears :
                 jellybear.RUNNING_SPEED_KMPH += 10
+            if bison.FLYING_SPEED_KMPH < 10 :
+                bison.state = bison.KNOCKOUT
 
         if bison.state == bison.ROCKETSLAM :
             bison.state = bison.RISING
-            bison.FLYING_SPEED_KMPH -= 1
+            if bison.FLYING_SPEED_KMPH > 1 :
+                bison.FLYING_SPEED_KMPH -= 1
             bison.ENERGY_LOSS -= 1
             for jellybear in jellybears :
                 jellybear.RUNNING_SPEED_KMPH += 1
 
-        if bison.ELASTIC_ENERGY < 3 :
-            bison.state = bison.KNOCKOUT
-        if bison.FLYING_SPEED_KMPH < 10:
-            bison.state = bison.KNOCKOUT
 
     for jellybear in jellybears :
-        jellybear.update(frame_time)
+        jellybear.update(bison, frame_time)
         if collide(bison, jellybear):
             if bison.state == bison.DESCENT :
                 jellybear.state = jellybear.EXPLODED
