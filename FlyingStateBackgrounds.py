@@ -22,7 +22,7 @@ class Ground :
         self.speed = bison.FLYING_SPEED_PPS
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.y = 120-(bison.y)
+        self.y = max(120 - bison.y, self.camera_height - self.h)
         pass
 
     def draw(self):
@@ -57,7 +57,7 @@ class UpperGround :
         self.speed = bison.FLYING_SPEED_PPS // 3
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.y = 120 - bison.y
+        self.y = max(120 - bison.y, self.camera_height - self.h)
         pass
 
     def draw(self):
@@ -88,7 +88,7 @@ class BackgroundFirst:
         self.speed = bison.FLYING_SPEED_PPS // 10
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.y = 120 - bison.y
+        self.y = max(120 - bison.y, self.camera_height - self.h)
         pass
 
     def draw(self):
@@ -121,7 +121,7 @@ class BackgroundSecond :
         self.speed = bison.FLYING_SPEED_PPS // 10
 
         self.ql = int((self.ql + (self.speed * frame_time)) % self.w)
-        self.y = 120 - bison.y
+        self.y = max(120 - bison.y, self.camera_height - self.h)
         pass
 
     def draw(self):
@@ -132,8 +132,6 @@ class BackgroundSecond :
                                         self.ql, self.h,
                                         self.w - self.ql, self.y)
         pass
-
-
 
 
 

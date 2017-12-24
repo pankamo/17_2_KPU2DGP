@@ -160,4 +160,5 @@ class Bison:
 
     def handle_event(self, event):
         if event.type == SDL_KEYDOWN and event.key == SDLK_SPACE :
-            self.state = self.ROCKETSLAM
+            if self.state != self.KNOCKOUT :
+                self.state = self.ROCKETSLAM

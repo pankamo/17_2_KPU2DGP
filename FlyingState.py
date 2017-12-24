@@ -140,22 +140,24 @@ def update( frame_time):
     if falling(bison, ground):
         if bison.state == bison.DESCENT :
             play_CrashingSound()
-            bison.state = bison.ROTATING
-            bison.FLYING_SPEED_KMPH -= 10
             bison.ENERGY_LOSS += 0.2
-            for jellybear in jellybears :
-                jellybear.RUNNING_SPEED_KMPH += 10
-            if bison.FLYING_SPEED_KMPH < 10 :
+            if bison.FLYING_SPEED_KMPH > 10 :
+                bison.FLYING_SPEED_KMPH -= 10
+                for jellybear in jellybears :
+                    jellybear.RUNNING_SPEED_KMPH += 10
+                    bison.state = bison.ROTATING
+
+            elif bison.FLYING_SPEED_KMPH < 10 :
                 bison.state = bison.KNOCKOUT
 
         if bison.state == bison.ROCKETSLAM :
             play_CrashingSound()
-            bison.state = bison.RISING
+            bison.ENERGY_LOSS -= 1
             if bison.FLYING_SPEED_KMPH > 1 :
                 bison.FLYING_SPEED_KMPH -= 1
-            bison.ENERGY_LOSS -= 1
-            for jellybear in jellybears :
-                jellybear.RUNNING_SPEED_KMPH += 1
+                for jellybear in jellybears:
+                    jellybear.RUNNING_SPEED_KMPH += 1
+                bison.state = bison.RISING
 
 
     for jellybear in jellybears :
@@ -165,8 +167,9 @@ def update( frame_time):
                 play_JellyPoppingSound()
                 jellybear.state = jellybear.EXPLODED
                 bison.state = bison.RISING
-                bison.FLYING_SPEED_KMPH -= 3
-                jellybear.RUNNING_SPEED_KMPH += 3
+                if bison.FLYING_SPEED_KMPH > 3 :
+                    bison.FLYING_SPEED_KMPH -= 3
+                    jellybear.RUNNING_SPEED_KMPH += 3
                 bison.ENERGY_LOSS -= 4
 
             if bison.state == bison.ROCKETSLAM :
