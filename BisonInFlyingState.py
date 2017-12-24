@@ -59,7 +59,7 @@ class Bison:
         self.FLYING_SPEED_MPS = self.FLYING_SPEED_MPM / 60
         self.FLYING_SPEED_PPS = self.FLYING_SPEED_MPS * self.PIXEL_PER_METER
 
-        self.x = clamp(0, self.canvas_width // 4, self.canvas_width)
+        self.x = self.canvas_width // 4
         self.y = clamp(120, self.y, (self.canvas_height // 5) * 4)
 
         if self.state == self.KNOCKOUT :

@@ -5,6 +5,7 @@ import math
 class Monster:
 
     image = None
+    taunting_sound = None
 
     IDLE, DRAGGING, LAUGHING, KNOCKED, CRUSHED = 0, 1, 2, 3, 4
 

@@ -22,6 +22,24 @@ upperground = None
 background = None
 PIXEL_PER_METER = 108
 
+jelly_popping_sound = None
+crashing_sound = None
+
+def load_JellyPoppingSound():
+    global jelly_popping_sound
+    jelly_popping_sound = load_wav('./Sounds/JellyPopping.wav')
+    jelly_popping_sound.set_volume(80)
+
+def load_CrashingSound():
+    global crashing_sound
+    crashing_sound = load_wav('./Sounds/GroundCrashing.wav')
+    crashing_sound.set_volume(80)
+
+def play_JellyPoppingSound():
+    jelly_popping_sound.play()
+
+def play_CrashingSound():
+    crashing_sound.play()
 
 def create_FlyingStage():
     global bison,\
@@ -74,6 +92,8 @@ def enter():
     game_framework.reset_time()
     create_FlyingStage()
     bgm_play()
+    load_CrashingSound()
+    load_JellyPoppingSound()
 
 def exit():
     destroy_FlyingStage()
@@ -119,6 +139,7 @@ def update( frame_time):
     ground.update(bison, frame_time)
     if falling(bison, ground):
         if bison.state == bison.DESCENT :
+            play_CrashingSound()
             bison.state = bison.ROTATING
             bison.FLYING_SPEED_KMPH -= 10
             bison.ENERGY_LOSS += 0.2
@@ -128,6 +149,7 @@ def update( frame_time):
                 bison.state = bison.KNOCKOUT
 
         if bison.state == bison.ROCKETSLAM :
+            play_CrashingSound()
             bison.state = bison.RISING
             if bison.FLYING_SPEED_KMPH > 1 :
                 bison.FLYING_SPEED_KMPH -= 1
@@ -140,6 +162,7 @@ def update( frame_time):
         jellybear.update(bison, frame_time)
         if collide(bison, jellybear):
             if bison.state == bison.DESCENT :
+                play_JellyPoppingSound()
                 jellybear.state = jellybear.EXPLODED
                 bison.state = bison.RISING
                 bison.FLYING_SPEED_KMPH -= 3
@@ -147,6 +170,7 @@ def update( frame_time):
                 bison.ENERGY_LOSS -= 4
 
             if bison.state == bison.ROCKETSLAM :
+                play_JellyPoppingSound()
                 jellybear.state = jellybear.EXPLODED
                 bison.state = bison.RISING
                 bison.ENERGY_LOSS -= 4

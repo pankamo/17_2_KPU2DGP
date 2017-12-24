@@ -21,13 +21,34 @@ grass = None
 bgm = None
 PIXEL_PER_METER = 108
 
+hittingsound = None
+successsound = None
+
 LAUNCHING = None
 
-def bgm_play():
+def play_bgm():
     global bgm
     bgm = load_wav('./Sounds/LaunchBGM.wav')
     bgm.set_volume(50)
     bgm.play()
+
+def load_HittingSound():
+    global hittingsound
+    hittingsound = load_wav('./Sounds/Launch_normal.wav')
+    hittingsound.set_volume(80)
+
+def load_SuccessSound():
+    global successsound
+    successsound = load_wav('./Sounds/Launch_success.wav')
+    successsound.set_volume(80)
+
+def play_HittingSound():
+    hittingsound.play()
+
+def play_SuccessSound():
+    successsound.play()
+
+
 
 def create_LaunchingStage():
     global bison, monster, gaugebar, gaugepoint, background, ground, grass
@@ -38,7 +59,9 @@ def create_LaunchingStage():
     background = Background()
     grass = Grass()
     ground = Ground()
-    bgm_play()
+    play_bgm()
+    load_HittingSound()
+    load_SuccessSound()
     pass
 
 def destroy_LaunchingStage():
@@ -101,8 +124,12 @@ def update(frame_time):
         monster.update(frame_time)
         bison.update(frame_time)
         if collide(bison, monster) :
-            if bison.state == bison.ATTACKING \
-                or bison.state == bison.BOOSTERED:
+            if bison.state == bison.ATTACKING :
+                play_HittingSound()
+                bison.state = bison.HITTING
+            elif bison.state == bison.BOOSTERED:
+                play_HittingSound()
+                play_SuccessSound()
                 bison.state = bison.HITTING
             elif bison.state == bison.FAILED :
                 bison.state = bison.REFLECTING
