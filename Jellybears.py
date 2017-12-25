@@ -33,8 +33,9 @@ class JellyBear:
         self.x = random.randint(self.canvas_width // 2, self.canvas_width + 500)
         self.y = 0
 
-        self.frame = random.randint(0,5)
-        self.frame_count = 0
+        self.frame = random.randint(-1,5)
+        self.running_frame_count = 0
+        self.popping_frame_count = 0
         self.state = self.RUNNING
 
     def update(self,bison, frame_time):
@@ -43,10 +44,10 @@ class JellyBear:
 
         if self.state == self.RUNNING :
 
-            self.frame_count += frame_time
-            if self.frame_count > 0.05:
+            self.running_frame_count += frame_time
+            if self.running_frame_count > 0.05:
                 self.frame = (self.frame + 1) % 6
-                self.frame_count = 0
+                self.running_frame_count = 0
 
             self.RUNNING_SPEED_MPM = (self.RUNNING_SPEED_KMPH * 1000) / 60
             self.RUNNING_SPEED_MPS = self.RUNNING_SPEED_MPM / 60
@@ -60,24 +61,28 @@ class JellyBear:
             if self.x > 1620:
                 self.state = self.EXPLODED
 
+
+
         elif self.state == self.EXPLODED :
 
-            self.frame_count += frame_time
+            self.popping_frame_count += frame_time
 
-            if self.frame_count > 0.05 and self.frame < 5 :
+            self.x -= bison.FLYING_SPEED_PPS * frame_time
+
+            if self.popping_frame_count > 0.1 and self.frame < 5 :
                 self.frame = (self.frame + 1) % 6
-                self.frame_count = 0
+                self.popping_frame_count = 0
 
             elif self.frame == 5:
                 self.x = random.randint(self.canvas_width + 100, self.canvas_width + 500)
                 self.frame = 0
                 self.state = self.RUNNING
 
-            elif self.x < -540 or self.RUNNING_SPEED_KMPH < 0 :
-                self.x = random.randint(self.canvas_width + 100, self.canvas_width + 500)
+            elif self.x < -540 and self.RUNNING_SPEED_KMPH < 0 :
+                self.x = random.randint(self.canvas_width + 300, self.canvas_width + 700)
                 self.state = self.RUNNING
 
-            elif self.x > 1620 or self.RUNNING_SPEED_KMPH > 0 :
+            elif self.x > 1620 and self.RUNNING_SPEED_KMPH > 0 :
                 self.x = random.randint(-500, -100)
                 self.state = self.RUNNING
 
@@ -91,6 +96,4 @@ class JellyBear:
             return x, y, r
 
     def draw(self):
-        if self.state == self.RUNNING :
-            self.image.clip_draw(self.frame * 250, self.state * 250, 250, 250, self.x, self.y)
-
+        self.image.clip_draw(self.frame * 250, self.state * 250, 250, 250, self.x, self.y)

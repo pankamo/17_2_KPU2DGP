@@ -9,6 +9,7 @@ import LaunchState
 from BisonInFlyingState import Bison
 from Jellybears import JellyBear
 from FlyingStateBackgrounds import *
+from FlyingStateSlamGauge import *
 
 name = "FlyingState"
 
@@ -20,6 +21,11 @@ bombbear = None
 ground = None
 upperground = None
 background = None
+
+firstgauge = None
+secondgauge = None
+thirdgauge = None
+
 PIXEL_PER_METER = 108
 
 jelly_popping_sound = None
@@ -45,7 +51,8 @@ def create_FlyingStage():
     global bison,\
             ground, upperground,\
             backgroundfirst, backgroundsecond, backgroundthird,\
-            jellybear, jellybears
+            jellybear, jellybears, \
+            firstgauge, secondgauge, thirdgauge
 
     bison = Bison()
     upperground = UpperGround()
@@ -55,6 +62,9 @@ def create_FlyingStage():
     backgroundsecond = BackgroundSecond()
     backgroundthird = BackgroundThird()
 
+    firstgauge = FirstGauge()
+    secondgauge = SecondGauge()
+    thirdgauge = ThirdGauge()
 
     jellybear = [JellyBear() for jellybear in range(6)]
     jellybears = jellybear
@@ -69,8 +79,10 @@ def destroy_FlyingStage():
     global bison,\
             ground, upperground,\
             backgroundfirst, backgroundsecond, backgroundthird,\
-            jellybear,\
+            jellybear, \
+            firstgauge, secondgauge, thirdgauge, \
             bgm
+
     del(ground)
     del(upperground)
     del(backgroundfirst)
@@ -79,6 +91,10 @@ def destroy_FlyingStage():
     del(bison)
     del(jellybear)
     del(bgm)
+
+    del(firstgauge)
+    del(secondgauge)
+    del(thirdgauge)
 
 def bgm_play() :
     global bgm
@@ -127,16 +143,27 @@ def handle_events(frame_time):
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
             else :
-                bison.handle_event(event)
+                bison.handle_event(firstgauge, secondgauge, thirdgauge, event)
+                firstgauge.handle_event(bison)
+                secondgauge.handle_event(bison)
+                thirdgauge.handle_event(bison)
 
 
-def update( frame_time):
+def update(frame_time):
+
+    firstgauge.update(bison, frame_time)
+    secondgauge.update(bison, frame_time)
+    thirdgauge.update(bison, frame_time)
+
     backgroundfirst.update(bison, frame_time)
     backgroundsecond.update(bison, frame_time)
     backgroundthird.update(bison,frame_time)
     upperground.update(bison,frame_time)
+
     bison.update(frame_time)
+
     ground.update(bison, frame_time)
+
     if falling(bison, ground):
         if bison.state == bison.DESCENT :
             play_CrashingSound()
@@ -159,6 +186,9 @@ def update( frame_time):
                     jellybear.RUNNING_SPEED_KMPH += 1
                 bison.state = bison.RISING
 
+        elif bison.state == bison.RISING :
+            pass
+
 
     for jellybear in jellybears :
         jellybear.update(bison, frame_time)
@@ -166,17 +196,26 @@ def update( frame_time):
             if bison.state == bison.DESCENT :
                 play_JellyPoppingSound()
                 jellybear.state = jellybear.EXPLODED
-                bison.state = bison.RISING
                 if bison.FLYING_SPEED_KMPH > 3 :
                     bison.FLYING_SPEED_KMPH -= 3
                     jellybear.RUNNING_SPEED_KMPH += 3
-                bison.ENERGY_LOSS -= 4
+                bison.ENERGY_LOSS -= 2
+                bison.rocketgauge += 0.25
+                bison.state = bison.RISING
+
+            if jellybear.state == jellybear.EXPLODED :
+                pass
 
             if bison.state == bison.ROCKETSLAM :
                 play_JellyPoppingSound()
                 jellybear.state = jellybear.EXPLODED
-                bison.state = bison.RISING
                 bison.ENERGY_LOSS -= 4
+                bison.rocketgauge += 0.25
+                bison.state = bison.RISING
+
+            elif bison.state == bison.RISING :
+                pass
+
 
 
 
@@ -190,6 +229,11 @@ def draw(frame_time):
     for jb in jellybear :
         jb.draw()
     ground.draw()
+
+    firstgauge.draw()
+    secondgauge.draw()
+    thirdgauge.draw()
+
     update_canvas()
     pass
 
