@@ -29,7 +29,7 @@ LAUNCHING = None
 def play_bgm():
     global bgm
     bgm = load_wav('./Sounds/LaunchBGM.wav')
-    bgm.set_volume(50)
+    bgm.set_volume(80)
     bgm.play()
 
 def load_HittingSound():
@@ -59,7 +59,6 @@ def create_LaunchingStage():
     background = Background()
     grass = Grass()
     ground = Ground()
-    play_bgm()
     load_HittingSound()
     load_SuccessSound()
     pass
@@ -81,6 +80,7 @@ def enter():
     hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
+    play_bgm()
     LAUNCHING = True
 
 def exit():

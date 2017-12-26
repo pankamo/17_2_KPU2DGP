@@ -8,6 +8,8 @@ import LaunchState
 class Bison:
 
     image = None
+    normal_launchsound = None
+    success_launchsound = None
 
     SHIVERING, ATTACKING, FAILED, BOOSTERED, HITTING, REFLECTING, FLYING, KNOCKOUT \
     = 1, 2, 4, 6, 3, 8, 7, 5

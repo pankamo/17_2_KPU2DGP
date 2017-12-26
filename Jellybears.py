@@ -5,8 +5,6 @@ import random
 import KeepingBisonSpeed
 
 
-
-
 class GreenJelly:
 
     image = None
@@ -277,7 +275,7 @@ class PinkJelly:
             if self.x < -540:
                 self.state = self.EXPLODED
 
-            if self.x > 2160:
+            if self.x > 1720:
                 self.state = self.EXPLODED
 
 
@@ -296,11 +294,11 @@ class PinkJelly:
                 self.frame = 0
                 self.state = self.RUNNING
 
-            elif self.x < -540 and self.RUNNING_SPEED_KMPH < 0 :
+            elif self.RUNNING_SPEED_KMPH < 0 :
                 self.x = random.randint(self.canvas_width + 300, self.canvas_width + 500)
                 self.state = self.RUNNING
 
-            elif self.x > 2160 and self.RUNNING_SPEED_KMPH > 0 :
+            elif self.RUNNING_SPEED_KMPH > 0 :
                 self.x = random.randint(-500, -100)
                 self.state = self.RUNNING
 

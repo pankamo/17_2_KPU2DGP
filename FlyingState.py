@@ -93,9 +93,9 @@ def create_FlyingStage():
     secondgauge = SecondGauge()
     thirdgauge = ThirdGauge()
 
-    greenjelly = [GreenJelly() for i in range(10)]
+    greenjelly = [GreenJelly() for i in range(6)]
     mudjelly = [MudJelly() for i in range(2)]
-    pinkjelly = [PinkJelly() for i in range(3)]
+    pinkjelly = [PinkJelly() for i in range(1)]
 
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]
