@@ -162,7 +162,7 @@ class Bison:
                 self.state = self.ATTACKING
 
     def get_bb(self):
-        r = 40
+        r = 300
         t = 0
         x = self.x - math.cos(t) * r
         y = self.y + math.sin(t) * r

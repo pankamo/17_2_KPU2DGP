@@ -76,7 +76,7 @@ def destroy_LaunchingStage():
 
 def enter():
     global LAUNCHING
-    open_canvas(1080,600,sync=60)
+    #open_canvas(1080,600,sync=60)
     hide_lattice()
     game_framework.reset_time()
     create_LaunchingStage()
@@ -127,12 +127,15 @@ def update(frame_time):
             if bison.state == bison.ATTACKING :
                 play_HittingSound()
                 bison.state = bison.HITTING
+                monster.state = monster.NORMAL_DRAGGING
             elif bison.state == bison.BOOSTERED:
                 play_HittingSound()
                 play_SuccessSound()
                 bison.state = bison.HITTING
+                monster.state = monster.SUCCESS_DRAGGING
             elif bison.state == bison.FAILED :
                 bison.state = bison.REFLECTING
+                monster.state = monster.FAIL_DRAGGING
         background.update(frame_time)
         gaugebar.update(frame_time, bison)
         gaugepoint.update(frame_time, bison)
