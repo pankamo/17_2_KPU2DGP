@@ -1,18 +1,4 @@
 from pico2d import *
-""""
-        if self.Gauge_Number == 1 :
-            self.x, self.y = 58, 87
-        elif self.Gauge_Number == 2 :
-            self.x, self.y = 58, 177
-        elif self.Gauge_Number == 3 :
-            self.x, self.y = 58, 267
-        elif self.Gauge_Number == 4 :
-            self.x, self.y = 58, 357
-        elif self.Gauge_Number == 5 :
-            self.x, self.y = 58, 447
-        elif self.Gauge_Number == 6 :
-            pass
-"""""
 
 
 class FirstGauge :
@@ -34,6 +20,8 @@ class FirstGauge :
                 pass
             else :
                 self.frame = (self.frame + 1) % 6
+            if bison.rocketgauge < 3:
+                self.state = self.Charging
 
         if self.state == self.Charging :
             if bison.rocketgauge <= 2:
@@ -44,15 +32,11 @@ class FirstGauge :
                 self.frame = 2
             if bison.rocketgauge == 2.75:
                 self.frame = 3
+            if bison.rocketgauge == 3:
+                self.state = self.Charged
 
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
-
-    def handle_event(self, bison):
-        if bison.rocketgauge < 3 :
-            self.state = self.Charging
-        if bison.rocketgauge == 3 :
-            self.state = self.Charged
 
 
 class SecondGauge :
@@ -74,6 +58,8 @@ class SecondGauge :
                 pass
             else :
                 self.frame = (self.frame + 1) % 6
+            if bison.rocketgauge < 2 :
+                self.state = self.Charging
 
         if self.state == self.Charging :
             if bison.rocketgauge <= 1:
@@ -84,15 +70,11 @@ class SecondGauge :
                 self.frame = 2
             if bison.rocketgauge == 1.75:
                 self.frame = 3
+            if bison.rocketgauge == 2 or bison.rocketgauge > 2 :
+                self.state = self.Charged
 
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
-
-    def handle_event(self, bison):
-        if bison.rocketgauge < 2:
-            self.state = self.Charging
-        if bison.rocketgauge == 2 or bison.rocketgauge > 2:
-            self.state = self.Charged
 
 class ThirdGauge :
 
@@ -113,6 +95,8 @@ class ThirdGauge :
                 pass
             else :
                 self.frame = (self.frame + 1) % 6
+            if bison.rocketgauge < 1 :
+                self.state = self.Charging
 
         if self.state == self.Charging :
             if bison.rocketgauge == 0:
@@ -123,14 +107,10 @@ class ThirdGauge :
                 self.frame = 2
             if bison.rocketgauge == 0.75:
                 self.frame = 3
+            if bison.rocketgauge == 1 or bison.rocketgauge > 1:
+                self.state = self.Charged
 
     def draw(self):
         self.image.clip_draw(self.frame * 100, self.state * 100, 100, 100, self.x, self.y)
-
-    def handle_event(self, bison):
-        if bison.rocketgauge < 1 :
-            self.state = self.Charging
-        if bison.rocketgauge == 1 or bison.rocketgauge > 1:
-            self.state = self.Charged
 
 

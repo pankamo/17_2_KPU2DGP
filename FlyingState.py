@@ -7,17 +7,19 @@ import game_framework
 import LaunchState
 
 from BisonInFlyingState import Bison
-from Jellybears import JellyBear
+from Jellybears import *
 from FlyingStateBackgrounds import *
 from FlyingStateSlamGauge import *
 
 name = "FlyingState"
 
 bison = None
-jellybear = None
-policebear = None
+greenjelly = None
+
+mudjelly = None
 rocketbear = None
 bombbear = None
+
 ground = None
 upperground = None
 background = None
@@ -31,6 +33,7 @@ PIXEL_PER_METER = 108
 jelly_popping_sound = None
 crashing_sound = None
 
+
 def load_JellyPoppingSound():
     global jelly_popping_sound
     jelly_popping_sound = load_wav('./Sounds/JellyPopping.wav')
@@ -41,23 +44,47 @@ def load_CrashingSound():
     crashing_sound = load_wav('./Sounds/GroundCrashing.wav')
     crashing_sound.set_volume(80)
 
+def load_JellyPoopSound():
+    global jelly_poop_sound
+    jelly_poop_sound = load_wav('./Sounds/JellyPoop.wav')
+    jelly_poop_sound.set_volume(100)
+
+def load_JellyBoostSound():
+    global jelly_boost_sound
+    jelly_boost_sound = load_wav('./Sounds/JellyBooster.wav')
+    jelly_boost_sound.set_volume(80)
+
+def load_KnockoutSound():
+    global KnockoutSound
+    KnockoutSound = load_wav('./Sounds/BooSound.wav')
+    KnockoutSound.set_volume(100)
+
 def play_JellyPoppingSound():
     jelly_popping_sound.play()
 
 def play_CrashingSound():
     crashing_sound.play()
 
+def play_JellyPoopSound():
+    jelly_poop_sound.play()
+
+def play_JellyBoostSound():
+    jelly_boost_sound.play()
+
+def play_KnockoutSound():
+    KnockoutSound.play()
+
 def create_FlyingStage():
     global bison,\
             ground, upperground,\
             backgroundfirst, backgroundsecond, backgroundthird,\
-            jellybear, jellybears, \
+            greenjelly, mudjelly, pinkjelly, \
             firstgauge, secondgauge, thirdgauge
 
     bison = Bison()
     upperground = UpperGround()
     ground = Ground()
-    jellybear = JellyBear()
+
     backgroundfirst = BackgroundFirst()
     backgroundsecond = BackgroundSecond()
     backgroundthird = BackgroundThird()
@@ -66,8 +93,9 @@ def create_FlyingStage():
     secondgauge = SecondGauge()
     thirdgauge = ThirdGauge()
 
-    jellybear = [JellyBear() for jellybear in range(6)]
-    jellybears = jellybear
+    greenjelly = [GreenJelly() for i in range(10)]
+    mudjelly = [MudJelly() for i in range(2)]
+    pinkjelly = [PinkJelly() for i in range(3)]
 
     #policebear = [PoliceBear() for i in range(2)]
     #rocketbear = [RocketBear() for i in range(2)]
@@ -79,7 +107,7 @@ def destroy_FlyingStage():
     global bison,\
             ground, upperground,\
             backgroundfirst, backgroundsecond, backgroundthird,\
-            jellybear, \
+            greenjelly, mudjelly, pinkjelly, \
             firstgauge, secondgauge, thirdgauge, \
             bgm
 
@@ -89,7 +117,11 @@ def destroy_FlyingStage():
     del(backgroundsecond)
     del(backgroundthird)
     del(bison)
-    del(jellybear)
+
+    del(greenjelly)
+    del(mudjelly)
+    del(pinkjelly)
+
     del(bgm)
 
     del(firstgauge)
@@ -110,6 +142,9 @@ def enter():
     bgm_play()
     load_CrashingSound()
     load_JellyPoppingSound()
+    load_JellyPoopSound()
+    load_JellyBoostSound()
+    load_KnockoutSound()
 
 def exit():
     destroy_FlyingStage()
@@ -141,12 +176,9 @@ def handle_events(frame_time):
             game_framework.quit()
         else:
             if (event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
-                game_framework.quit()
+                game_framework.change_state(LaunchState)
             else :
                 bison.handle_event(firstgauge, secondgauge, thirdgauge, event)
-                firstgauge.handle_event(bison)
-                secondgauge.handle_event(bison)
-                thirdgauge.handle_event(bison)
 
 
 def update(frame_time):
@@ -170,11 +202,16 @@ def update(frame_time):
             bison.ENERGY_LOSS += 0.2
             if bison.FLYING_SPEED_KMPH > 10 :
                 bison.FLYING_SPEED_KMPH -= 10
-                for jellybear in jellybears :
-                    jellybear.RUNNING_SPEED_KMPH += 10
-                    bison.state = bison.ROTATING
+                for jelly in greenjelly :
+                    jelly.RUNNING_SPEED_KMPH += 10
+                for jelly in mudjelly :
+                    jelly.RUNNING_SPEED_KMPH += 10
+                for jelly in pinkjelly :
+                    jelly.RUNNING_SPEED_KMPH += 10
+                bison.state = bison.ROTATING
 
             elif bison.FLYING_SPEED_KMPH < 10 :
+                play_KnockoutSound()
                 bison.state = bison.KNOCKOUT
 
         if bison.state == bison.ROCKETSLAM :
@@ -182,39 +219,107 @@ def update(frame_time):
             bison.ENERGY_LOSS -= 1
             if bison.FLYING_SPEED_KMPH > 1 :
                 bison.FLYING_SPEED_KMPH -= 1
-                for jellybear in jellybears:
-                    jellybear.RUNNING_SPEED_KMPH += 1
+                for jelly in greenjelly:
+                    jelly.RUNNING_SPEED_KMPH += 1
+                for jelly in mudjelly:
+                    jelly.RUNNING_SPEED_KMPH += 1
+                for jelly in pinkjelly:
+                    jelly.RUNNING_SPEED_KMPH += 1
                 bison.state = bison.RISING
 
         elif bison.state == bison.RISING :
             pass
 
 
-    for jellybear in jellybears :
-        jellybear.update(bison, frame_time)
-        if collide(bison, jellybear):
+    for jelly in greenjelly :
+        jelly.update(bison, frame_time)
+        if collide(bison, jelly):
             if bison.state == bison.DESCENT :
                 play_JellyPoppingSound()
-                jellybear.state = jellybear.EXPLODED
+                jelly.state = jelly.EXPLODED
                 if bison.FLYING_SPEED_KMPH > 3 :
                     bison.FLYING_SPEED_KMPH -= 3
-                    jellybear.RUNNING_SPEED_KMPH += 3
+                    for jelly in greenjelly :
+                        jelly.RUNNING_SPEED_KMPH += 3
+                    for jelly in mudjelly :
+                        jelly.RUNNING_SPEED_KMPH += 3
+                    for jelly in pinkjelly :
+                        jelly.RUNNING_SPEED_KMPH += 3
                 bison.ENERGY_LOSS -= 2
                 bison.rocketgauge += 0.25
                 bison.state = bison.RISING
 
-            if jellybear.state == jellybear.EXPLODED :
+            if jelly.state == jelly.EXPLODED :
                 pass
 
             if bison.state == bison.ROCKETSLAM :
                 play_JellyPoppingSound()
-                jellybear.state = jellybear.EXPLODED
+                jelly.state = jelly.EXPLODED
+                bison.ENERGY_LOSS -= 4
+                bison.rocketgauge += 0.25
+
+
+    for jelly in mudjelly :
+        jelly.update(bison, frame_time)
+        if collide(bison, jelly):
+            if bison.state == bison.DESCENT :
+                play_JellyPoopSound()
+                jelly.state = jelly.EXPLODED
+                if bison.FLYING_SPEED_KMPH > 15 :
+                    bison.FLYING_SPEED_KMPH -= 15
+                    for jelly in greenjelly :
+                        jelly.RUNNING_SPEED_KMPH += 15
+                    for jelly in mudjelly :
+                        jelly.RUNNING_SPEED_KMPH += 15
+                    for jelly in pinkjelly :
+                        jelly.RUNNING_SPEED_KMPH += 15
+                bison.ENERGY_LOSS -= 2
+                bison.rocketgauge += 0.25
+                bison.state = bison.ROTATING
+
+            if jelly.state == jelly.EXPLODED :
+                pass
+
+            if bison.state == bison.ROCKETSLAM :
+                play_JellyPoppingSound()
+                jelly.state = jelly.EXPLODED
+                bison.ENERGY_LOSS -= 4
+                bison.rocketgauge += 0.25
+
+    for jelly in pinkjelly :
+        jelly.update(bison, frame_time)
+        if collide(bison, jelly):
+            if bison.state == bison.DESCENT :
+                play_JellyBoostSound()
+                jelly.state = jelly.EXPLODED
+                if bison.FLYING_SPEED_KMPH < 128 :
+                    bison.FLYING_SPEED_KMPH += 30
+                    for jelly in greenjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
+                    for jelly in mudjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
+                    for jelly in pinkjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
                 bison.ENERGY_LOSS -= 4
                 bison.rocketgauge += 0.25
                 bison.state = bison.RISING
 
-            elif bison.state == bison.RISING :
+            if jelly.state == jelly.EXPLODED :
                 pass
+
+            if bison.state == bison.ROCKETSLAM :
+                play_JellyBoostSound()
+                jelly.state = jelly.EXPLODED
+                if bison.FLYING_SPEED_KMPH < 128 :
+                    bison.FLYING_SPEED_KMPH += 30
+                    for jelly in greenjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
+                    for jelly in mudjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
+                    for jelly in pinkjelly :
+                        jelly.RUNNING_SPEED_KMPH -= 30
+                bison.ENERGY_LOSS -= 4
+                bison.rocketgauge += 0.25
 
 
 
@@ -226,8 +331,16 @@ def draw(frame_time):
     backgroundfirst.draw()
     upperground.draw()
     bison.draw()
-    for jb in jellybear :
-        jb.draw()
+
+    for jelly in greenjelly :
+        jelly.draw()
+
+    for jelly in mudjelly:
+        jelly.draw()
+
+    for jelly in pinkjelly:
+        jelly.draw()
+
     ground.draw()
 
     firstgauge.draw()
@@ -235,6 +348,12 @@ def draw(frame_time):
     thirdgauge.draw()
 
     update_canvas()
+    pass
+
+def pause():
+    pass
+
+def resume():
     pass
 
 if __name__ == '__main__' :

@@ -5,10 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="40f0632d-b93f-45ef-b833-39a11e4250dd" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Images/JellySprites.png" afterPath="$PROJECT_DIR$/Images/JellySprites.png" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempB.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempBoosted.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempFail.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempGauge.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempGaugePoint.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempLaunch.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempMAP.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempPlant.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempPolice.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempR.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempRocBe.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/Images/TempScene.png" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Images/Gauge.png" afterPath="$PROJECT_DIR$/Images/Gauge.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BisonInFlyingState.py" afterPath="$PROJECT_DIR$/BisonInFlyingState.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FlyingState.py" afterPath="$PROJECT_DIR$/FlyingState.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/FlyingStateSlamGauge.py" afterPath="$PROJECT_DIR$/FlyingStateSlamGauge.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Jellybears.py" afterPath="$PROJECT_DIR$/Jellybears.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,11 +32,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Jellybears.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Jellybears.py">
+      <file leaf-file-name="BisonInLaunchState.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/BisonInLaunchState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
+            <state relative-caret-position="408">
+              <caret line="30" column="50" lean-forward="true" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -32,21 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FlyingStateSlamGauge.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/FlyingStateSlamGauge.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="BisonInFlyingState.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="178" column="71" lean-forward="true" selection-start-line="178" selection-start-column="71" selection-end-line="178" selection-end-column="71" />
+            <state relative-caret-position="792">
+              <caret line="179" column="29" lean-forward="false" selection-start-line="179" selection-start-column="29" selection-end-line="179" selection-end-column="29" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -57,8 +59,20 @@
       <file leaf-file-name="FlyingState.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/FlyingState.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-64">
-              <caret line="145" column="72" lean-forward="false" selection-start-line="145" selection-start-column="72" selection-end-line="145" selection-end-column="72" />
+            <state relative-caret-position="90">
+              <caret line="59" column="33" lean-forward="true" selection-start-line="59" selection-start-column="33" selection-end-line="59" selection-end-column="33" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LaunchState.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LaunchState.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="112" column="13" lean-forward="true" selection-start-line="112" selection-start-column="13" selection-end-line="112" selection-end-column="13" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -89,6 +103,7 @@
       <find>spend</find>
       <find>frame_count</find>
       <find>enemy</find>
+      <find>Booster</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -125,16 +140,16 @@
         <option value="$PROJECT_DIR$/KeepingBisonSpeed.py" />
         <option value="$PROJECT_DIR$/Gauge.py" />
         <option value="$PROJECT_DIR$/LogoStateFirst.py" />
-        <option value="$PROJECT_DIR$/BisonInLaunchState.py" />
         <option value="$PROJECT_DIR$/StartGame.py" />
         <option value="$PROJECT_DIR$/Monster.py" />
-        <option value="$PROJECT_DIR$/LaunchState.py" />
         <option value="$PROJECT_DIR$/FlyingStateBackgrounds.py" />
         <option value="$PROJECT_DIR$/FlyingStateInterface.py" />
-        <option value="$PROJECT_DIR$/Jellybears.py" />
-        <option value="$PROJECT_DIR$/FlyingState.py" />
         <option value="$PROJECT_DIR$/BisonInFlyingState.py" />
         <option value="$PROJECT_DIR$/FlyingStateSlamGauge.py" />
+        <option value="$PROJECT_DIR$/Jellybears.py" />
+        <option value="$PROJECT_DIR$/BisonInLaunchState.py" />
+        <option value="$PROJECT_DIR$/FlyingState.py" />
+        <option value="$PROJECT_DIR$/LaunchState.py" />
       </list>
     </option>
   </component>
@@ -292,7 +307,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Data/Launch_scene.py" />
     <entry file="file://E:/Python362/Lib/site-packages/pico2d.py" />
     <entry file="file://$PROJECT_DIR$/Data/Launch_details.py" />
     <entry file="file://$PROJECT_DIR$/Images/TempLaunch.png">
@@ -455,13 +469,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LaunchState.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="131" column="35" lean-forward="false" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Monster.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="19">
@@ -478,28 +485,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/BisonInLaunchState.py">
+    <entry file="file://$PROJECT_DIR$/Images/RocketSlamGauge.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/FlyingStateSlamGauge.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2971">
-          <caret line="0" column="20" lean-forward="false" selection-start-line="0" selection-start-column="20" selection-end-line="0" selection-end-column="20" />
+        <state relative-caret-position="-1299">
+          <caret line="1" column="0" lean-forward="false" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Jellybears.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="19" column="31" lean-forward="false" selection-start-line="19" selection-start-column="31" selection-end-line="19" selection-end-column="31" />
-          <folding>
-            <element signature="e#0#20#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="178" column="71" lean-forward="true" selection-start-line="178" selection-start-column="71" selection-end-line="178" selection-end-column="71" />
+        <state relative-caret-position="-843">
+          <caret line="246" column="58" lean-forward="true" selection-start-line="246" selection-start-column="58" selection-end-line="246" selection-end-column="58" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
@@ -508,19 +510,41 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/FlyingState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-64">
-          <caret line="145" column="72" lean-forward="false" selection-start-line="145" selection-start-column="72" selection-end-line="145" selection-end-column="72" />
+        <state relative-caret-position="90">
+          <caret line="59" column="33" lean-forward="true" selection-start-line="59" selection-start-column="33" selection-end-line="59" selection-end-column="33" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/FlyingStateSlamGauge.py">
+    <entry file="file://$PROJECT_DIR$/BisonInLaunchState.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="56" column="0" lean-forward="true" selection-start-line="56" selection-start-column="0" selection-end-line="56" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="408">
+          <caret line="30" column="50" lean-forward="true" selection-start-line="30" selection-start-column="50" selection-end-line="30" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BisonInFlyingState.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="792">
+          <caret line="179" column="29" lean-forward="false" selection-start-line="179" selection-start-column="29" selection-end-line="179" selection-end-column="29" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LaunchState.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="112" column="13" lean-forward="true" selection-start-line="112" selection-start-column="13" selection-end-line="112" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
